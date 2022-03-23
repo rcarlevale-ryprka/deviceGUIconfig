@@ -34,3 +34,4 @@ class class_main:
     #/ are connected locally. If they are connected locally, then it tries to identify the connection  
     #/ or prompt the user.
     def func_defineConnection ():
+        ...
