@@ -2,9 +2,9 @@
 #/ @Project Headers
 #/ Purpose: Used for referencing outside of the file to identify informaiton about the program.
 
-__projName__ = ""
+__projName__ = "Cisco Network Device GUI API"
 __projDesc__ = ""
-__projVer__ = "0.0.0"
+__projVer__ = ["alpha", "1.0.0"]
 
 __authors__ = ["Ryder Carlevale", "Amber Kovacs"]
 __emails__ = ["carlevaler@wit.edu", "kovacsa@wit.edu"]
@@ -17,8 +17,10 @@ __license__ = ""
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+import tkinter
+
 import debug
-import gui
+import guiHandle
 import cmdAPI
 import conAPI
 
@@ -49,10 +51,17 @@ class class_main:
         # Hello world.
         print("Hello World!")
 
-        #Testing debug class & methods.
+        # Testing debug class & methods.
         debug.class_debug.func_debugOut("This is a string!")
-        
 
+        # Variables.
+        varInteger = 1
+        varString = "String"
+        varBoolean = True
+        varArray = [1, 2, 3]
+
+        guiHandle.class_guiHandle.func_guiHandleMain(__projName__)
+        
 
 #/
 #/ @Calls
