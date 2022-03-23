@@ -27,13 +27,10 @@ import conAPI
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-class class_main {
+class class_main:
 
     #/ @Define Connection
     #/ Purpose: Defines whether the network devices are through a console server or
     #/ are connected locally. If they are connected locally, then it tries to identify the connection  
     #/ or prompt the user.
-    def func_defineConnection () {
-
-    }
-}
+    def func_defineConnection ():
