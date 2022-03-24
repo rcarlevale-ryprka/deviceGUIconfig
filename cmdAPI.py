@@ -1,3 +1,6 @@
+#/ @cmdAPI.py
+#/ Purpose: API that reads and sends commands to network devices.
+
 #/
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.

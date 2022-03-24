@@ -13,6 +13,9 @@ __credits__ = ""
 __license__ = ""
 
 
+#/ @main.py
+#/ Purpose: Main file of the entire program. Runs all other classes and files underneath it.
+
 #/
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
@@ -60,7 +63,7 @@ class class_main:
         varBoolean = True
         varArray = [1, 2, 3]
 
-        guiHandle.class_guiHandle.func_guiHandleMain(__projName__)
+        guiHandle.class_guiHandle.func_guiHandleMain()
         
 
 #/

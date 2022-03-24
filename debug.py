@@ -1,3 +1,6 @@
+#/ @debug.py
+#/ Purpose: Has variables that pass through it that create logs for error finding and debugging.
+
 #/
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.

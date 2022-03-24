@@ -1,0 +1,10 @@
+{
+	"projectSettings" : {
+        "projectName" : "Network Device Manager"
+    },
+    "guiSettings" : {
+        "title" : "Network Device Manager",
+        "manualScreenHeight" : 200,
+        "manualScreenWidth" : 600
+    }
+}
