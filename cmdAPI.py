@@ -12,3 +12,6 @@
 
 #/ @class_name_filler
 #/ Purpose: Filler purpose. 
+
+class class_commandAPI:
+    ... #Filler.

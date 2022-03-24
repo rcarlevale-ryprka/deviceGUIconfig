@@ -20,26 +20,31 @@ guiHandle = tkinter.Tk()
 #/ Purpose: Filler purpose. 
 
 class class_guiHandle:
-
-    #/ @func_guiHandlePack
-    #/ Purpose: Packs GUI objects (such as buttons) and registers them with tkinter.
-    def func_guiHandlePack(guiObject):
-        guiObject.pack()
-
+    
     #/ @func_guiHandlePrgMenu
     #/ Purpose: 
     def func_guiHandlePrgMenu():
+
+        #Test Button
+        guiObj_testButton = tkinter.Button(guiHandle)
+        guiObj_testButton["text"] = "TEST"
+        guiObj_testButton["width"] = 5
+        guiObj_testButton["height"] = 5
+        guiObj_testButton["command"] = guiHandle.destroy
+        guiObj_testButton.grid(row = 1, column = 1, sticky = tkinter.S, padx = 10, pady = 20)
+
         # Exit Button
         guiObj_exitButton = tkinter.Button(guiHandle)
         guiObj_exitButton["text"] = "EXIT"
-        guiObj_exitButton.place(x = 10, y = 10, width = 4, height = 2)
+        guiObj_exitButton["width"] = 5
+        guiObj_exitButton["height"] = 5
         guiObj_exitButton["command"] = guiHandle.destroy
-
-        class_guiHandle.func_guiHandlePack(guiObj_exitButton)
+        guiObj_exitButton.grid(row = 2, column = 1, sticky = tkinter.S, padx = 10, pady = 20)
 
 
     #/ @func_guiHandleMain
     #/ Purpose: Main function for handling gui functions.
+    #/ TODO: Make GUI go off of machine's monitor size or manual input in settings.json.
     def func_guiHandleMain():
 
         # Loading .json config file.
@@ -53,6 +58,11 @@ class class_guiHandle:
         #val_scrnW = winfo_screenheight()
         #val_scrnH = winfo_screenheight()
         guiHandle.geometry('1920x1080+400+200')
+
+        #Test GRID
+        guiHandle.resizable(0, 0)
+        guiHandle.columnconfigure(4, weight = 200)
+        guiHandle.rowconfigure(4, weight = 200)
 
         # Calling method that will load the GUI objects.
         class_guiHandle.func_guiHandlePrgMenu()
