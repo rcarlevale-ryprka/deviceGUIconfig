@@ -50,12 +50,8 @@ class class_main:
     #/ Purpose: Main function in the main class.
 
     def func_main():
-
-        # Hello world.
-        print("Hello World!")
-
-        # Testing debug class & methods.
-        debug.class_debug.func_debugOut("This is a string!")
+        # Initializing Start of Program
+        debug.class_debug.func_debugOut("Program Start")
 
         # Variables.
         varInteger = 1

@@ -5,6 +5,7 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+from PIL import ImageTk, Image
 import tkinter
 import json
 
@@ -24,32 +25,39 @@ guiHandle = tkinter.Tk()
 
 class class_guiHandle:
 
+    def func_guiHandleExit():
+        debug.class_debug.func_debugOut("GUI Destroy Call")
+        guiHandle.destroy()
+
     #/ @func_guiHandlePrgMenu
     #/ Purpose: 
+    #/ TODO: Build GUI
+    #/ TODO: Get Image import to work.
     def func_guiHandlePrgMenu():
 
         # Test Image
         guiObj_imageLabelExample =  tkinter.Label(guiHandle)
-        guiObj_imageLabelExample["width"] = 5
-        guiObj_imageLabelExample["height"] = 5
-        guiObj_imageLabelExample["image"] = tkinter.PhotoImage(file = '/guiObjects/testIMG.png')
-        guiObj_imageLabelExample.grid(row = 2, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+        guiObj_imageLabelExample["text"] = "TEST"
+        guiObj_imageLabelExample["width"] = 10
+        guiObj_imageLabelExample["height"] = 10
+        guiObj_imageLabelExample["image"] = ImageTk.PhotoImage(Image.open("testIMG.png"))
+        guiObj_imageLabelExample.grid(row = 2, column = 2, sticky = tkinter.S, padx = 10, pady = 10)
 
         # Test & Example Button
         guiObj_testButton = tkinter.Button(guiHandle)
         guiObj_testButton["text"] = "TEST"
         guiObj_testButton["width"] = 5
         guiObj_testButton["height"] = 5
-        guiObj_testButton["command"] = lambda: debug.class_debug.func_debugOut("TEST BUTTON PRESSED!!") #For whatever reason this doesn't work without lambda.
+        guiObj_testButton["command"] = lambda: debug.class_debug.func_debugOut("guiObj_testButton Button Pressed") #For whatever reason this doesn't work without lambda.
         guiObj_testButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
         # Exit Button
         guiObj_exitButton = tkinter.Button(guiHandle)
         guiObj_exitButton["text"] = "EXIT"
-        guiObj_exitButton["width"] = 7
-        guiObj_exitButton["height"] = 2
-        guiObj_exitButton["command"] = guiHandle.destroy
-        guiObj_exitButton.grid(row = 0, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+        guiObj_exitButton["width"] = 20
+        guiObj_exitButton["height"] = 3
+        guiObj_exitButton["command"] = lambda: class_guiHandle.func_guiHandleExit()
+        guiObj_exitButton.grid(row = 0, column = 0, sticky = tkinter.E, padx = 10, pady = 10)
 
 
     #/ @func_guiHandleMain
