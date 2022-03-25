@@ -28,13 +28,19 @@ class class_guiHandle:
     #/ Purpose: 
     def func_guiHandlePrgMenu():
 
-        #Test Button
+        # Test Image
+        guiObj_imageLabelExample =  tkinter.Label(guiHandle)
+        guiObj_imageLabelExample["width"] = 5
+        guiObj_imageLabelExample["height"] = 5
+        guiObj_imageLabelExample["image"] = tkinter.PhotoImage(file = '/guiObjects/testIMG.png')
+        guiObj_imageLabelExample.grid(row = 2, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+
+        # Test & Example Button
         guiObj_testButton = tkinter.Button(guiHandle)
         guiObj_testButton["text"] = "TEST"
         guiObj_testButton["width"] = 5
         guiObj_testButton["height"] = 5
         guiObj_testButton["command"] = lambda: debug.class_debug.func_debugOut("TEST BUTTON PRESSED!!") #For whatever reason this doesn't work without lambda.
-        guiObj_testButton.pack()
         guiObj_testButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
         # Exit Button
