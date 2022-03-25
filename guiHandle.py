@@ -8,6 +8,9 @@
 import tkinter
 import json
 
+import debug
+
+
 # Defining tkinter module as a variable.
 guiHandle = tkinter.Tk()
 
@@ -20,7 +23,7 @@ guiHandle = tkinter.Tk()
 #/ Purpose: Filler purpose. 
 
 class class_guiHandle:
-    
+
     #/ @func_guiHandlePrgMenu
     #/ Purpose: 
     def func_guiHandlePrgMenu():
@@ -30,21 +33,23 @@ class class_guiHandle:
         guiObj_testButton["text"] = "TEST"
         guiObj_testButton["width"] = 5
         guiObj_testButton["height"] = 5
-        guiObj_testButton["command"] = guiHandle.destroy
-        guiObj_testButton.grid(row = 1, column = 1, sticky = tkinter.S, padx = 10, pady = 20)
+        guiObj_testButton["command"] = lambda: debug.class_debug.func_debugOut("TEST BUTTON PRESSED!!") #For whatever reason this doesn't work without lambda.
+        guiObj_testButton.pack()
+        guiObj_testButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
         # Exit Button
         guiObj_exitButton = tkinter.Button(guiHandle)
         guiObj_exitButton["text"] = "EXIT"
-        guiObj_exitButton["width"] = 5
-        guiObj_exitButton["height"] = 5
+        guiObj_exitButton["width"] = 7
+        guiObj_exitButton["height"] = 2
         guiObj_exitButton["command"] = guiHandle.destroy
-        guiObj_exitButton.grid(row = 2, column = 1, sticky = tkinter.S, padx = 10, pady = 20)
+        guiObj_exitButton.grid(row = 0, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
     #/ @func_guiHandleMain
     #/ Purpose: Main function for handling gui functions.
     #/ TODO: Make GUI go off of machine's monitor size or manual input in settings.json.
+    #/ TODO: Get title from settings json file.
     def func_guiHandleMain():
 
         # Loading .json config file.

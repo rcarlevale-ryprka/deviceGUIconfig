@@ -2,7 +2,7 @@
 #/ @Project Headers
 #/ Purpose: Used for referencing outside of the file to identify informaiton about the program.
 
-__projName__ = "Cisco Network Device GUI API"
+__projName__ = "Network Device Manager"
 __projDesc__ = ""
 __projVer__ = ["alpha", "1.0.0"]
 

@@ -18,4 +18,5 @@ class class_debug:
     #/ @func_debugOut
     #/ Purpose: Temporary debug method meant to output a variable.
     def func_debugOut (var1):
+        print("DEBUG CALLED")
         print(var1)

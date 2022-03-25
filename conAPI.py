@@ -5,6 +5,8 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+import serial
+
 
 #/
 #/ @Classes
