@@ -22,8 +22,7 @@ guiHandle = tkinter.Tk()
 
 
 #Test values for port information.
-netDev = "Layer 2 Switch"
-
+netDevInfo = ["Switch", "Layer 2"]
 netDevPort = ["Fa0", "Fa1", "Fa2","Fa3"]
 netDevPortConStatus = ["notconnect", "notconnect", "notconnect", "notconnect"]
 netDevPortVLAN = [1, 1, 1, 10]
@@ -31,7 +30,7 @@ netDevPortDuplex = ["auto", "auto", "auto", "auto"]
 netDevPortSpeed = ["auto", "auto", "auto", "auto"]
 netDevPortType = ["10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX"]
 
-netDevMatrix = [netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed, netDevPortType]
+netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed, netDevPortType]
 
 
 val_portButtonListShown = True
@@ -53,41 +52,58 @@ class class_guiHandle:
         guiHandle.destroy()
 
 
+    def func_guiHandleInterfaceDetails(matrixNum):
+        print(matrixNum)
+
+        guiObj_portStatusLabel = tkinter.Label(guiHandle)
+        #guiObj_portStatusLabel["width"] = 12
+        #guiObj_portStatusLabel["height"] = 3
+        #guiObj_portStatusLabel.grid(row = 2, column = 1, sticky = tkinter.N, padx = 10, pady = 10)
+
+        #guiObj_portStatusLabel["text"] = "Port Status: "
+
+
     #/ @func_guiHandleInterfaceMenu
     #/ Purpose: To handle the button interaction menu for how many interfaces the network device has.
     def func_guiHandleInterfaceMenu(var_shBoolIntMenu):
 
         #/ If the object variables are not created yet, this creates them and stores them as a global value
         #/ to be referenced if this parent method is ran again.
-        for interface in netDevMatrix[0]:
+        for interface in netDevMatrix[1]:
             if ('guiObj_netdevIntButton' + interface + 'Vis') not in globals():
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False
 
             if ('guiObj_netdevIntButton' + interface) not in globals():
                 globals()['guiObj_netdevIntButton' + str(interface)] = NULL #/ Has to be null or set to a value or else error.
+                globals()['val_netdevIntButton' + str(interface)] = netDevMatrix[1].index(interface)
 
 
         #/ Tests if the visibility of the buttons is true or not and swiches the visibility.
-        if var_shBoolIntMenu == True:
-            for interface in netDevMatrix[0]:
+        if var_shBoolIntMenu == True and globals()['guiObj_netdevIntButton' + str(netDevMatrix[1][0]) + 'Vis'] == False:
+            for interface in netDevMatrix[1]:
                 globals()['guiObj_netdevIntButton' + str(interface)] = tkinter.Button(guiHandle)
                 globals()['guiObj_netdevIntButton' + str(interface)]["text"] = interface
                 globals()['guiObj_netdevIntButton' + str(interface)]["width"] = 12
                 globals()['guiObj_netdevIntButton' + str(interface)]["height"] = 3
-                globals()['guiObj_netdevIntButton' + str(interface)].grid(row = 1, column = (1 + netDevMatrix[0].index(interface)), sticky = tkinter.S, padx = 10, pady = 10)
+                globals()['guiObj_netdevIntButton' + str(interface)].grid(row = 1, column = (1 + netDevMatrix[1].index(interface)), sticky = tkinter.E, padx = 10, pady = 10)
+                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda: class_guiHandle.func_guiHandleInterfaceDetails(globals()['val_netdevIntButton' + str(interface)])
+                print(globals()['guiObj_netdevIntButton' + str(interface)])
+                
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = True
 
             #/ Updates show/hide network device button text and comamnd.
             guiObj_shInterfacesButton["text"] = "Hide Network Device Ports"
             guiObj_shInterfacesButton["command"] = lambda: class_guiHandle.func_guiHandleInterfaceMenu(False)
+            
         if var_shBoolIntMenu == False:
-            for interface in netDevMatrix[0]:
+            for interface in netDevMatrix[1]:
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False
 
             #/ Updates show/hide network device button text and comamnd.
             guiObj_shInterfacesButton["text"] = "Show Network Device Ports"
             guiObj_shInterfacesButton["command"] = lambda: class_guiHandle.func_guiHandleInterfaceMenu(True)
+
 
 
     #/ @func_guiHandlePrgMenu
@@ -114,8 +130,6 @@ class class_guiHandle:
         guiObj_shInterfacesButton["command"] = lambda: class_guiHandle.func_guiHandleInterfaceMenu(True) #For whatever reason this doesn't work without lambda.
         guiObj_shInterfacesButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
-
-        
 
 
     #/ @func_guiHandleMain
@@ -146,4 +160,7 @@ class class_guiHandle:
 
         # Starts GUI and loops it's existence.
         guiHandle.mainloop()
-        
+
+
+#///
+#/ End of Code

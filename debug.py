@@ -28,3 +28,7 @@ class class_debug:
     #/ Purpose: Temporary debug method meant to output a variable.
     def func_debugOut(var1):
         print(class_debug.func_getTime() + " " + var1)
+
+
+#///
+#/ End of Code
