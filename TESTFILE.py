@@ -1,4 +1,6 @@
 #/ Imports
+from asyncio.windows_events import NULL
+from itertools import count
 import tkinter
 
 
@@ -14,25 +16,33 @@ array = [0, 1, 2, 3, 4, 5, 6, 7]
 class MainClass:
     #/ Prints information from button press.
     def func_printOut(string):
+        str(string)
         print(string)
 
     #Creates array of buttons.
     def func_buttonMenu():
-        if ('guiArr_buttonNumArray') not in globals():
-            global guiArr_buttonNumArray
+        global arr_buttonNum
+        arr_buttonNum = []
 
-        #/ Create GUI button for each item in array.
+        
         for item in array:
-            #/ Creates a variable in the format of 'guiObj_buttonNum#' if it does not exist in global.
-            if ('guiObj_buttonNum' + str(item)) not in globals():
-                globals()['guiObj_buttonNum' + str(item)] = tkinter.Button(guiHandle)
+            arr_buttonNum.append(tkinter.Button(
+                guiHandle,
+                text = str(item),
+                width = 16,
+                height = 3,
+            ))
 
-            #/ Sets up button details and places it on the GUI tkinter grid.
-            globals()['guiObj_buttonNum' + str(item)]["text"] = "Button Number " + str(item)
-            globals()['guiObj_buttonNum' + str(item)]["width"] = 16
-            globals()['guiObj_buttonNum' + str(item)]["height"] = 3
-            globals()['guiObj_buttonNum' + str(item)]["command"] = lambda: MainClass.func_printOut(item)
-            globals()['guiObj_buttonNum' + str(item)].grid(row = 1, column = (0 + item), sticky = tkinter.S, padx = 10, pady = 10)
+            arr_buttonNum[item].grid(row = 1, column = (0 + item), sticky = tkinter.W, padx = 10, pady = 10)
+
+        for 
+            
+
+            
+
+            
+
+
 
 
     #/ Main GUI Handle.

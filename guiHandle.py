@@ -6,11 +6,9 @@
 #/ Purpose: Used to import files to use for this main method.
 
 from asyncio.windows_events import NULL
-from glob import glob
 from PIL import ImageTk, Image
 import tkinter
 import json
-
 import time
 
 import debug
@@ -25,7 +23,7 @@ guiHandle = tkinter.Tk()
 netDevInfo = ["Switch", "Layer 2"]
 netDevPort = ["Fa0", "Fa1", "Fa2","Fa3"]
 netDevPortConStatus = ["notconnect", "notconnect", "notconnect", "notconnect"]
-netDevPortVLAN = [1, 1, 1, 10]
+netDevPortVLAN = [1, 2, 5, 10]
 netDevPortDuplex = ["auto", "auto", "auto", "auto"]
 netDevPortSpeed = ["auto", "auto", "auto", "auto"]
 netDevPortType = ["10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX"]
@@ -33,7 +31,15 @@ netDevPortType = ["10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX", "10/100 Bas
 netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed, netDevPortType]
 
 
+# 
 val_portButtonListShown = True
+
+#/
+#/ @Hard-Code Variables
+#/ Purpose: Set variables up before assigned additional attributes later on.
+
+guiObj_netdevIntButtonFa0 = NULL
+
 
 
 #/
@@ -53,49 +59,79 @@ class class_guiHandle:
 
 
     def func_guiHandleInterfaceDetails(var_shIntDetails, portNum):
-        if ('guiObj_portStatus' + str(portNum) + 'Label') not in globals():
-            globals()['guiObj_portStatus' + str(portNum) + 'Label'] = NULL
 
-        print(portNum)
+
+        if 'guiObj_portStatusLabelpt1' not in globals():
+            global guiObj_portStatusLabelpt1
+            guiObj_portStatusLabelpt1 = tkinter.Label(guiHandle)
+            global guiObj_portStatusLabelpt2
+            guiObj_portStatusLabelpt2 = tkinter.Label(guiHandle)
+            global guiObj_portVLANLabelpt1
+            guiObj_portVLANLabelpt1 = tkinter.Label(guiHandle)
+            global guiObj_portVLANLabelpt2
+            guiObj_portVLANLabelpt2 = tkinter.Label(guiHandle)
+            global guiObjArr_intDetails
+            guiObjArr_intDetails = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2, guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+
+            
 
         if var_shIntDetails == True:
-            globals()['guiObj_portStatus' + str(portNum) + 'Label'] = tkinter.Label(guiHandle)
-            globals()['guiObj_portStatus' + str(portNum) + 'Label']["width"] = 12
-            globals()['guiObj_portStatus' + str(portNum) + 'Label']["height"] = 3
-            globals()['guiObj_portStatus' + str(portNum) + 'Label']["text"] = "Port Status: " + str(portNum)
-            globals()['guiObj_portStatus' + str(portNum) + 'Label'].grid(row = 2, column = (1 + portNum), sticky = tkinter.N, padx = 10, pady = 10)
+            guiObj_portStatusLabelpt1["text"] = "Port Status: "
+            guiObj_portStatusLabelpt1["width"] = 16
+            guiObj_portStatusLabelpt1["height"] = 3
+            guiObj_portStatusLabelpt1.grid(row = 2, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+
+            guiObj_portStatusLabelpt2["text"] = str(netDevMatrix[2][portNum])
+            guiObj_portStatusLabelpt2["width"] = 16
+            guiObj_portStatusLabelpt2["height"] = 3
+            guiObj_portStatusLabelpt2.grid(row = 2, column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+
+            guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
+            guiObj_portVLANLabelpt1["width"] = 16
+            guiObj_portVLANLabelpt1["height"] = 3
+            guiObj_portVLANLabelpt1.grid(row = 3, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+
+            guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][portNum])
+            guiObj_portVLANLabelpt2["width"] = 16
+            guiObj_portVLANLabelpt2["height"] = 3
+            guiObj_portVLANLabelpt2.grid(row = 3, column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+
+        elif var_shIntDetails == False:
+            for guiLabel in guiObjArr_intDetails:
+                guiLabel.grid_forget()
 
 
     #/ @func_guiHandleInterfaceMenu
     #/ Purpose: To handle the button interaction menu for how many interfaces the network device has.
     def func_guiHandleInterfaceMenu(var_shBoolIntMenu):
 
+        global guiObj_netdevIntButtonVis
+
         #/ If the object variables are not created yet, this creates them and stores them as a global variable
         #/ to be referenced if this parent method is ran again.
         for interface in netDevMatrix[1]:
-            if ('guiObj_netdevIntButton' + interface + 'Vis') not in globals():
+            if ('guiObj_netdevIntButton' + interface) not in globals():
                 #/ Variable created for each button that holds it's visibility True or False.
                 #/ Should result in a variable in this format:  guiObj_netdevIntButtonFa0Vis
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False 
-
-            if ('guiObj_netdevIntButton' + interface) not in globals():
                 #/ Creates global variable for GUI button.
                 #/ Should result in a variable in this format:  guiObj_netdevIntButtonFa0
-                globals()['guiObj_netdevIntButton' + str(interface)] = NULL #/ Assigned later with tk.Button()
+                globals()['guiObj_netdevIntButton' + str(interface)] = NULL
 
 
         #/ Tests if the visibility of the buttons is true or not and swiches the visibility.
-        if var_shBoolIntMenu == True and globals()['guiObj_netdevIntButton' + str(netDevMatrix[1][0]) + 'Vis'] == False:
+        if var_shBoolIntMenu == True and globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] == False:
             for interface in netDevMatrix[1]:
-                globals()['guiObj_netdevIntButton' + str(interface)] = tkinter.Button(guiHandle) #/ Sets button variable to register with tkinter GUI manager.
-                globals()['guiObj_netdevIntButton' + str(interface)]["text"] = interface #/ Sets button text.
-                globals()['guiObj_netdevIntButton' + str(interface)]["width"] = 12 #/ Sets button width.
-                globals()['guiObj_netdevIntButton' + str(interface)]["height"] = 3 #/ Sets button height.
+                globals()['guiObj_netdevIntButton' + str(interface)] = tkinter.Button(
+                    guiHandle,
+                    text = interface,
+                    width = 16,
+                    height = 3) #/ Sets button variable to register with tkinter GUI manager.
 
                 #/ Sends variabless to another function when the button is clicked.
                 #/ This temporarily just prints whatever port interface.
-                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda: class_guiHandle.func_guiHandleInterfaceDetails(True, netDevMatrix[1].index(interface))
-                
+                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = netDevMatrix[1].index(interface): class_guiHandle.func_guiHandleInterfaceDetails(var_shBoolIntMenu, int)
+
                 globals()['guiObj_netdevIntButton' + str(interface)].grid(row = 1, column = (1 + netDevMatrix[1].index(interface)), sticky = tkinter.E, padx = 10, pady = 10) #/Sets position in window.
 
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = True
@@ -108,6 +144,8 @@ class class_guiHandle:
             for interface in netDevMatrix[1]:
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False
+
+            class_guiHandle.func_guiHandleInterfaceDetails(var_shBoolIntMenu, int)
 
             #/ Updates show/hide network device button text and comamnd.
             guiObj_shInterfacesButton["text"] = "Show Network Device Ports"
@@ -136,7 +174,7 @@ class class_guiHandle:
         guiObj_shInterfacesButton["text"] = "Show Network Device Ports"
         guiObj_shInterfacesButton["width"] = 30
         guiObj_shInterfacesButton["height"] = 3
-        guiObj_shInterfacesButton["command"] = lambda: class_guiHandle.func_guiHandleInterfaceMenu(True) #For whatever reason this doesn't work without lambda.
+        guiObj_shInterfacesButton["command"] = lambda: [class_guiHandle.func_guiHandleInterfaceMenu(True), class_guiHandle.func_guiHandleInterfaceDetails(False, 0)] #For whatever reason this doesn't work without lambda.
         guiObj_shInterfacesButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
