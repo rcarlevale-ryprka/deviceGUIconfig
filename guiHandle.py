@@ -6,39 +6,55 @@
 #/ Purpose: Used to import files to use for this main method.
 
 from asyncio.windows_events import NULL
-from PIL import ImageTk, Image
 import tkinter
-import json
+import random
 import time
 
 import debug
 
 
+#/ 
+#/ @Var Setup
+#/ Setup global variables for this file.
+
 # Defining tkinter module as a variable.
 guiHandle = tkinter.Tk()
 
+# Defines how far down of a row shift func_guiHandleInterfaceMenu() and
+# func_guiHandleInterfaceDetails() need to take.
+var_intMenuRowShift = 0
 
 
-#Test values for port information.
+#/ 
+#/ @Var Setup TEST
+#/ Setup global variables for this file. Has testing variables that will be replaced later.
+
+#Test values for network device information.
 netDevInfo = ["Switch", "Layer 2"]
-netDevPort = ["Fa0", "Fa1", "Fa2","Fa3"]
-netDevPortConStatus = ["notconnect", "notconnect", "notconnect", "notconnect"]
-netDevPortVLAN = [1, 2, 5, 10]
-netDevPortDuplex = ["auto", "auto", "auto", "auto"]
-netDevPortSpeed = ["auto", "auto", "auto", "auto"]
-netDevPortType = ["10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX", "10/100 BaseTX"]
+
+netDevPort = []
+netDevPortConStatus = []
+netDevPortVLAN = []
+netDevPortDuplex = []
+netDevPortSpeed = []
+netDevPortType = []
+
+num = 0
+while num <= 23:
+    netDevPort.append("Fa" + str(num))
+    num += 1
+
+
+for i in netDevPort:
+    netDevPortConStatus.append("notconnect")
+    netDevPortVLAN.append(random.randint(0, 99))
+    netDevPortDuplex.append("auto")
+    netDevPortSpeed.append("auto")
+    netDevPortType.append("10/100 BaseTX")
 
 netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed, netDevPortType]
 
 
-# 
-val_portButtonListShown = True
-
-#/
-#/ @Hard-Code Variables
-#/ Purpose: Set variables up before assigned additional attributes later on.
-
-guiObj_netdevIntButtonFa0 = NULL
 
 
 
@@ -59,9 +75,13 @@ class class_guiHandle:
 
 
     def func_guiHandleInterfaceDetails(var_shIntDetails, portNum):
+        global var_intMenuRowShift
 
 
         if 'guiObj_portStatusLabelpt1' not in globals():
+            global guiObj_portStatusLabel
+            guiObj_portStatusLabel = tkinter.Label(guiHandle)
+
             global guiObj_portStatusLabelpt1
             guiObj_portStatusLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portStatusLabelpt2
@@ -70,6 +90,14 @@ class class_guiHandle:
             guiObj_portVLANLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portVLANLabelpt2
             guiObj_portVLANLabelpt2 = tkinter.Label(guiHandle)
+            global guiObj_portDuplexLabelpt1
+            guiObj_portDuplexLabelpt1 = tkinter.Label(guiHandle)
+            global guiObj_portDuplexLabelpt2
+            guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
+            global guiObj_portSpeedLabelpt1
+            guiObj_portSpeedLabelpt1 = tkinter.Label(guiHandle)
+            global guiObj_portSpeedLabelpt2
+            guiObj_portSpeedLabelpt2 = tkinter.Label(guiHandle)
             global guiObjArr_intDetails
             guiObjArr_intDetails = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2, guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
 
@@ -79,22 +107,42 @@ class class_guiHandle:
             guiObj_portStatusLabelpt1["text"] = "Port Status: "
             guiObj_portStatusLabelpt1["width"] = 16
             guiObj_portStatusLabelpt1["height"] = 3
-            guiObj_portStatusLabelpt1.grid(row = 2, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            guiObj_portStatusLabelpt1.grid(row = (2 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
             guiObj_portStatusLabelpt2["text"] = str(netDevMatrix[2][portNum])
             guiObj_portStatusLabelpt2["width"] = 16
             guiObj_portStatusLabelpt2["height"] = 3
-            guiObj_portStatusLabelpt2.grid(row = 2, column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            guiObj_portStatusLabelpt2.grid(row = (2 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1["width"] = 16
             guiObj_portVLANLabelpt1["height"] = 3
-            guiObj_portVLANLabelpt1.grid(row = 3, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            guiObj_portVLANLabelpt1.grid(row = (3 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
             guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][portNum])
             guiObj_portVLANLabelpt2["width"] = 16
             guiObj_portVLANLabelpt2["height"] = 3
-            guiObj_portVLANLabelpt2.grid(row = 3, column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            guiObj_portVLANLabelpt2.grid(row = (3 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
+
+            guiObj_portDuplexLabelpt1["text"] = "Duplex: "
+            guiObj_portDuplexLabelpt1["width"] = 16
+            guiObj_portDuplexLabelpt1["height"] = 3
+            guiObj_portDuplexLabelpt1.grid(row = (4 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
+
+            guiObj_portDuplexLabelpt2["text"] = str(netDevMatrix[4][portNum])
+            guiObj_portDuplexLabelpt2["width"] = 16
+            guiObj_portDuplexLabelpt2["height"] = 3
+            guiObj_portDuplexLabelpt2.grid(row = (4 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
+
+            guiObj_portSpeedLabelpt1["text"] = "Port Speed: "
+            guiObj_portSpeedLabelpt1["width"] = 16
+            guiObj_portSpeedLabelpt1["height"] = 3
+            guiObj_portSpeedLabelpt1.grid(row = (5 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
+
+            guiObj_portSpeedLabelpt2["text"] = str(netDevMatrix[4][portNum])
+            guiObj_portSpeedLabelpt2["width"] = 16
+            guiObj_portSpeedLabelpt2["height"] = 3
+            guiObj_portSpeedLabelpt2.grid(row = (5 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
         elif var_shIntDetails == False:
             for guiLabel in guiObjArr_intDetails:
@@ -105,7 +153,8 @@ class class_guiHandle:
     #/ Purpose: To handle the button interaction menu for how many interfaces the network device has.
     def func_guiHandleInterfaceMenu(var_shBoolIntMenu):
 
-        global guiObj_netdevIntButtonVis
+
+        
 
         #/ If the object variables are not created yet, this creates them and stores them as a global variable
         #/ to be referenced if this parent method is ran again.
@@ -121,7 +170,21 @@ class class_guiHandle:
 
         #/ Tests if the visibility of the buttons is true or not and swiches the visibility.
         if var_shBoolIntMenu == True and globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] == False:
+            var_intMenuColShift = -1
+
             for interface in netDevMatrix[1]:
+
+                #/ Shifts GUI down 1 row if the amount of interfaces on the device is 8 or greater.
+                var_intMenuColShift += 1
+                var_guiShiftNum = netDevMatrix[1].index(interface) / 8
+                if var_guiShiftNum >= 1 and var_intMenuColShift > 7:
+                    global var_intMenuRowShift
+                    var_intMenuRowShift += 1
+                    var_intMenuColShift -= 8
+                
+
+                
+
                 globals()['guiObj_netdevIntButton' + str(interface)] = tkinter.Button(
                     guiHandle,
                     text = interface,
@@ -132,7 +195,7 @@ class class_guiHandle:
                 #/ This temporarily just prints whatever port interface.
                 globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = netDevMatrix[1].index(interface): class_guiHandle.func_guiHandleInterfaceDetails(var_shBoolIntMenu, int)
 
-                globals()['guiObj_netdevIntButton' + str(interface)].grid(row = 1, column = (1 + netDevMatrix[1].index(interface)), sticky = tkinter.E, padx = 10, pady = 10) #/Sets position in window.
+                globals()['guiObj_netdevIntButton' + str(interface)].grid(row = (1 + var_intMenuRowShift), column = (1 + var_intMenuColShift), sticky = tkinter.N, padx = 10, pady = 10) #/Sets position in window.
 
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = True
 
