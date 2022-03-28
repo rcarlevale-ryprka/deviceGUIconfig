@@ -20,12 +20,10 @@ __license__ = ""
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
-import tkinter
-
 import debug
 import guiHandle
-import cmdAPI
-import conAPI
+#import cmdAPI
+#import conAPI
 
 
 #/
@@ -52,12 +50,6 @@ class class_main:
     def func_main():
         # Initializing Start of Program
         debug.class_debug.func_debugOut("Program Start")
-
-        # Variables.
-        varInteger = 1
-        varString = "String"
-        varBoolean = True
-        varArray = [1, 2, 3]
 
         guiHandle.class_guiHandle.func_guiHandleMain()
         
