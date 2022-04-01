@@ -6,5 +6,9 @@
         "title" : "Network Device Manager",
         "manualScreenHeight" : 200,
         "manualScreenWidth" : 600
+    },
+    "debugSettings" : {
+        "doLogging" : true,
+        "doDebugging" : true
     }
 }

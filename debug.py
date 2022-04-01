@@ -6,11 +6,24 @@
 #/ Purpose: Used to import files to use for this main method.
 
 from datetime import datetime
+import json
+
+
 
 
 #/
 #/ @Classes
 #/ Purpose: Define classes in this file.
+
+#/ @class_settingsManage
+#/ Purpose: Loads settings.json file for entire program.
+
+class class_settingsManage:
+    def class_settingsManage():
+        with open('settings.json', 'r') as confFile:
+            return(json.load(confFile))
+
+
 
 #/ @class_debug
 #/ Purpose: Main class for debug.py, this file, holds debug methods.
@@ -23,11 +36,41 @@ class class_debug:
         currTime = datetime.now()
         return (currTime.strftime("[%H:%M:%S]"))
 
+    #/ @func_logFileOut
+    #/ Purpose: To write and create log file.
+    def func_logFileOut(var_stringInp):
+
+        try:
+            file_logFile = open('C:\\NDM.txt', 'a')
+            file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
+            file_logFile.close()
+            pass
+        except IOError:
+            print(class_debug.func_getTime() + " (ERROR) Couldn't create file for logging.")
+
+
+
+
+        
+
+
 
     #/ @func_debugOut
     #/ Purpose: Temporary debug method meant to output a variable.
-    def func_debugOut(var1):
-        print(class_debug.func_getTime() + " " + var1)
+    def func_debugOut(var_stringInp):
+
+
+        if type(var_stringInp) == str:
+            class_debug.func_logFileOut(var_stringInp)
+            pass
+        else:
+            raise TypeError(class_debug.func_getTime() + " (ERROR) Debug Variable Not String")
+
+        print(class_debug.func_getTime() + " " + var_stringInp)
+
+
+        
+
 
 
 #///

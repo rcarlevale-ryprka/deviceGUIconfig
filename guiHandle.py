@@ -73,6 +73,10 @@ class class_guiHandle:
         debug.class_debug.func_debugOut("GUI Destroy Call")
         guiHandle.destroy()
 
+    
+    #/ @func_guiHandleInterfaceDetails
+    #/ Purpose: 
+
 
     def func_guiHandleInterfaceDetails(var_shIntDetails, portNum):
         global var_intMenuRowShift
@@ -152,10 +156,6 @@ class class_guiHandle:
     #/ @func_guiHandleInterfaceMenu
     #/ Purpose: To handle the button interaction menu for how many interfaces the network device has.
     def func_guiHandleInterfaceMenu(var_shBoolIntMenu):
-
-
-        
-
         #/ If the object variables are not created yet, this creates them and stores them as a global variable
         #/ to be referenced if this parent method is ran again.
         for interface in netDevMatrix[1]:
