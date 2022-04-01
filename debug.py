@@ -15,13 +15,12 @@ import json
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-#/ @class_settingsManage
-#/ Purpose: Loads settings.json file for entire program.
+#/ @func_settingsManage
+#/ Purpose: Loads settings.json file for when this method is called.
 
-class class_settingsManage:
-    def class_settingsManage():
-        with open('settings.json', 'r') as confFile:
-            return(json.load(confFile))
+def func_loadConfig():
+    with open('settings.json', 'r') as confFile:
+        return(json.load(confFile))
 
 
 
