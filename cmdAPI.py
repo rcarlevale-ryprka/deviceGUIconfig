@@ -47,6 +47,6 @@ class class_commandAPI:
 
 
 
-testBool = True
+testBool = False
 if testBool == True:
     class_commandAPI.func_testMethod()
