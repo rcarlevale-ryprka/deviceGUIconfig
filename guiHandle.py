@@ -83,27 +83,47 @@ class class_guiHandle:
 
 
         if 'guiObj_portStatusLabelpt1' not in globals():
-            global guiObj_portStatusLabel
-            guiObj_portStatusLabel = tkinter.Label(guiHandle)
-
+            
+            # Port Status
             global guiObj_portStatusLabelpt1
             guiObj_portStatusLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portStatusLabelpt2
             guiObj_portStatusLabelpt2 = tkinter.Label(guiHandle)
+
+            global guiArr_portStatusArr
+            guiArr_portStatusArr = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2]
+
+            # VLAN
             global guiObj_portVLANLabelpt1
             guiObj_portVLANLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portVLANLabelpt2
             guiObj_portVLANLabelpt2 = tkinter.Label(guiHandle)
+
+            global guiArr_portVLANArr
+            guiArr_portVLANArr = [guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+
+            # Duplex
             global guiObj_portDuplexLabelpt1
             guiObj_portDuplexLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portDuplexLabelpt2
             guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
+
+            global guiArr_portDuplexArr
+            guiArr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portStatusLabelpt2]
+
+            # Port Speed
             global guiObj_portSpeedLabelpt1
             guiObj_portSpeedLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portSpeedLabelpt2
             guiObj_portSpeedLabelpt2 = tkinter.Label(guiHandle)
-            global guiObjArr_intDetails
-            guiObjArr_intDetails = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2, guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+
+            global guiArr_portSpeedArr
+            guiArr_portSpeedArr = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2]
+
+
+            # Array Matrix
+            global arr_interfaceDetailsGui
+            arr_interfaceDetailsGui = [guiArr_portStatusArr, guiArr_portVLANArr, guiArr_portDuplexArr, guiArr_portSpeedArr]
 
             
 
@@ -131,6 +151,8 @@ class class_guiHandle:
             guiObj_portVLANLabelpt2["height"] = 3
             guiObj_portVLANLabelpt2.grid(row = (3 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+
+            #Duplex
             guiObj_portDuplexLabelpt1["text"] = "Duplex: "
             guiObj_portDuplexLabelpt1["width"] = 16
             guiObj_portDuplexLabelpt1["height"] = 3
@@ -141,6 +163,8 @@ class class_guiHandle:
             guiObj_portDuplexLabelpt2["height"] = 3
             guiObj_portDuplexLabelpt2.grid(row = (4 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+
+            #Speed
             guiObj_portSpeedLabelpt1["text"] = "Port Speed: "
             guiObj_portSpeedLabelpt1["width"] = 16
             guiObj_portSpeedLabelpt1["height"] = 3
@@ -151,9 +175,12 @@ class class_guiHandle:
             guiObj_portSpeedLabelpt2["height"] = 3
             guiObj_portSpeedLabelpt2.grid(row = (5 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+        # Removes interface objects from screen.
         elif var_shIntDetails == False:
-            for guiLabel in guiObjArr_intDetails:
-                guiLabel.grid_forget()
+            for guiSet in arr_interfaceDetailsGui:
+                for guiObj in guiSet:
+                    print(guiObj["text"])
+                    guiObj.grid_forget()
 
 
     #/ @func_guiHandleInterfaceMenu
@@ -216,6 +243,8 @@ class class_guiHandle:
             #/ Updates show/hide network device button text and comamnd.
             guiObj_shInterfacesButton["text"] = "Show Network Device Ports"
             guiObj_shInterfacesButton["command"] = lambda: class_guiHandle.func_guiHandleInterfaceMenu(True)
+
+            var_intMenuRowShift = 0
 
 
 
