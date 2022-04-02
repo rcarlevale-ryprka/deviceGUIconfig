@@ -109,7 +109,7 @@ class class_guiHandle:
             guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
 
             global arr_portDuplexArr
-            arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portStatusLabelpt2]
+            arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portDuplexLabelpt2]
 
             # Port Speed
             global guiObj_portSpeedLabelpt1
@@ -179,7 +179,6 @@ class class_guiHandle:
         elif var_shIntDetails == False:
             for guiSet in matrix_interfaceDetailsGui:
                 for guiObj in guiSet:
-                    print(guiObj["text"])
                     guiObj.grid_forget()
 
 
