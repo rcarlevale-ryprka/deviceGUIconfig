@@ -29,11 +29,12 @@ class class_connectAPI:
     #/ @func_serialConInstance
     #/ Purpose: Establish a connection through serial to a network device. Allow input and output of commands.
     def func_serialConInstance(arr_cmdInp):
-        #/ Initializes the serial connection and connects to the serial device based off of the config file.
+        # Initializes the serial connection and connects to the serial device based off of the config file.
         with serial.Serial(debug.func_loadConfig()["conSettings"]["serialConNum"], timeout = debug.func_loadConfig()["conSettings"]["serialComSpeed"]) as ser:
-            #/ Establishes serial connection in console.
+            # Establishes serial connection in console.
             print(f"Connecting to {ser.name}...")
 
+            # A loop that sends each command in an array of commands that have been sent.
             for command in arr_cmdInp:
                 ser.write(str(command).encode("utf-8"))
                 ser.write('\r'.encode("utf-8"))
@@ -44,11 +45,15 @@ class class_connectAPI:
 
     #/ @func_sshConInstance()
     #/ Purpose: Establish a connection with an ssh instance to a network device.
-    def func_sshConInstance():
-        ... #FILLER REMOVE WHEN WRITE CODE
+    def func_sshConInstance(arr_cmdInp):
+        # A loop that sends each command in an array of commands that have been sent.
+        for command in arr_cmdInp:
+            ... #FILLER REMOVE WHEN WRITE CODE
 
 
     #/ @func_sshConInstance()
     #/ Purpose: Establish a connection with an ssh instance to a network device.
-    def func_telnetConInstance():
-        ... #FILLER REMOVE WHEN WRITE CODE
+    def func_telnetConInstance(arr_cmdInp):
+        # A loop that sends each command in an array of commands that have been sent.
+        for command in arr_cmdInp:
+            ... #FILLER REMOVE WHEN WRITE CODE
