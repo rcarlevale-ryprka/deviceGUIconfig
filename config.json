@@ -10,5 +10,9 @@
     "debugSettings" : {
         "doLogging" : true,
         "doDebugging" : true
+    },
+    "conSettings" : {
+        "serialComNum" : "COM12",
+        "serialComSpeed" : 9600
     }
 }
