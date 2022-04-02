@@ -90,8 +90,8 @@ class class_guiHandle:
             global guiObj_portStatusLabelpt2
             guiObj_portStatusLabelpt2 = tkinter.Label(guiHandle)
 
-            global guiArr_portStatusArr
-            guiArr_portStatusArr = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2]
+            global arr_portStatusArr
+            arr_portStatusArr = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2]
 
             # VLAN
             global guiObj_portVLANLabelpt1
@@ -99,8 +99,8 @@ class class_guiHandle:
             global guiObj_portVLANLabelpt2
             guiObj_portVLANLabelpt2 = tkinter.Label(guiHandle)
 
-            global guiArr_portVLANArr
-            guiArr_portVLANArr = [guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+            global arr_portVLANArr
+            arr_portVLANArr = [guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
 
             # Duplex
             global guiObj_portDuplexLabelpt1
@@ -108,8 +108,8 @@ class class_guiHandle:
             global guiObj_portDuplexLabelpt2
             guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
 
-            global guiArr_portDuplexArr
-            guiArr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portStatusLabelpt2]
+            global arr_portDuplexArr
+            arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portStatusLabelpt2]
 
             # Port Speed
             global guiObj_portSpeedLabelpt1
@@ -117,13 +117,13 @@ class class_guiHandle:
             global guiObj_portSpeedLabelpt2
             guiObj_portSpeedLabelpt2 = tkinter.Label(guiHandle)
 
-            global guiArr_portSpeedArr
-            guiArr_portSpeedArr = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2]
+            global arr_portSpeedArr
+            arr_portSpeedArr = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2]
 
 
             # Array Matrix
-            global arr_interfaceDetailsGui
-            arr_interfaceDetailsGui = [guiArr_portStatusArr, guiArr_portVLANArr, guiArr_portDuplexArr, guiArr_portSpeedArr]
+            global matrix_interfaceDetailsGui
+            matrix_interfaceDetailsGui = [arr_portStatusArr, arr_portVLANArr, arr_portDuplexArr, arr_portSpeedArr]
 
             
 
@@ -177,7 +177,7 @@ class class_guiHandle:
 
         # Removes interface objects from screen.
         elif var_shIntDetails == False:
-            for guiSet in arr_interfaceDetailsGui:
+            for guiSet in matrix_interfaceDetailsGui:
                 for guiObj in guiSet:
                     print(guiObj["text"])
                     guiObj.grid_forget()
