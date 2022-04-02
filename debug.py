@@ -19,7 +19,7 @@ import json
 #/ Purpose: Loads settings.json file for when this method is called.
 
 def func_loadConfig():
-    with open('settings.json', 'r') as confFile:
+    with open('config.json', 'r') as confFile:
         return(json.load(confFile))
 
 
@@ -38,14 +38,15 @@ class class_debug:
     #/ @func_logFileOut
     #/ Purpose: To write and create log file.
     def func_logFileOut(var_stringInp):
-
-        try:
-            file_logFile = open('C:\\NDM.txt', 'a')
-            file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
-            file_logFile.close()
-            pass
-        except IOError:
-            print(class_debug.func_getTime() + " (ERROR) Couldn't create file for logging.")
+        #/ Pulls config information.
+        if func_loadConfig()["debugSettings"]["doLogging"] == True:
+            try:
+                file_logFile = open('C:\\NDM.txt', 'a')
+                file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
+                file_logFile.close()
+                pass
+            except IOError:
+                print(class_debug.func_getTime() + " (ERROR) Couldn't create file for logging.")
 
 
 

@@ -108,6 +108,7 @@ class class_guiHandle:
             
 
         if var_shIntDetails == True:
+            # Port Status
             guiObj_portStatusLabelpt1["text"] = "Port Status: "
             guiObj_portStatusLabelpt1["width"] = 16
             guiObj_portStatusLabelpt1["height"] = 3
@@ -118,6 +119,8 @@ class class_guiHandle:
             guiObj_portStatusLabelpt2["height"] = 3
             guiObj_portStatusLabelpt2.grid(row = (2 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+
+            # VLAN
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1["width"] = 16
             guiObj_portVLANLabelpt1["height"] = 3
@@ -253,7 +256,7 @@ class class_guiHandle:
 
         # Defining title of program window.
         #guiHandle.title(configFile['guiSettings'][0])
-        guiHandle.title("Network Device Manager")
+        guiHandle.title(debug.func_loadConfig()["projectDetails"]["projectName"])
 
         # Handles Screensize
         #val_scrnW = winfo_screenheight()
