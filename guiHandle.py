@@ -83,31 +83,54 @@ class class_guiHandle:
 
 
         if 'guiObj_portStatusLabelpt1' not in globals():
-            global guiObj_portStatusLabel
-            guiObj_portStatusLabel = tkinter.Label(guiHandle)
-
+            #/ Port Status
             global guiObj_portStatusLabelpt1
             guiObj_portStatusLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portStatusLabelpt2
             guiObj_portStatusLabelpt2 = tkinter.Label(guiHandle)
+            global guiObj_portStatusText
+            guiObj_portStatusText = tkinter.Text(guiHandle)
+            global guiObj_portStatusUpdateButton
+            guiObj_portStatusUpdateButton = tkinter.Button(guiHandle)
+
+            guiArr_portStatusDetails = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2, guiObj_portStatusText, guiObj_portStatusUpdateButton]
+
+
+            #/ VLAN
             global guiObj_portVLANLabelpt1
             guiObj_portVLANLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portVLANLabelpt2
             guiObj_portVLANLabelpt2 = tkinter.Label(guiHandle)
+
+            guiArr_portVLANDetails = [guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+
+
+            #/ Duplex
             global guiObj_portDuplexLabelpt1
             guiObj_portDuplexLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portDuplexLabelpt2
             guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
+
+            guiArr_portDuplexDetails = [guiObj_portDuplexLabelpt1, guiObj_portDuplexLabelpt2]
+
+
+            #/ Speed
             global guiObj_portSpeedLabelpt1
             guiObj_portSpeedLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portSpeedLabelpt2
             guiObj_portSpeedLabelpt2 = tkinter.Label(guiHandle)
-            global guiObjArr_intDetails
-            guiObjArr_intDetails = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2, guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2]
+
+            guiArr_portSpeedDetails = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2]
+
+
+            #/ Array
+            global guiMatrix_intDetails
+            guiMatrix_intDetails = [guiArr_portStatusDetails, guiArr_portVLANDetails, guiArr_portDuplexDetails, guiArr_portSpeedDetails]
 
             
 
         if var_shIntDetails == True:
+            #/ Port Status
             guiObj_portStatusLabelpt1["text"] = "Port Status: "
             guiObj_portStatusLabelpt1["width"] = 16
             guiObj_portStatusLabelpt1["height"] = 3
@@ -118,6 +141,12 @@ class class_guiHandle:
             guiObj_portStatusLabelpt2["height"] = 3
             guiObj_portStatusLabelpt2.grid(row = (2 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+            guiObj_portStatusText["width"] = 14
+            guiObj_portStatusText["height"] = 1
+            guiObj_portStatusText.grid(row = (2 + var_intMenuRowShift), column = 3, sticky = tkinter.W, padx = 0, pady = 10)
+
+
+            #/ Port VLAN
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1["width"] = 16
             guiObj_portVLANLabelpt1["height"] = 3
@@ -128,6 +157,8 @@ class class_guiHandle:
             guiObj_portVLANLabelpt2["height"] = 3
             guiObj_portVLANLabelpt2.grid(row = (3 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+
+            #/ Duplex
             guiObj_portDuplexLabelpt1["text"] = "Duplex: "
             guiObj_portDuplexLabelpt1["width"] = 16
             guiObj_portDuplexLabelpt1["height"] = 3
@@ -138,6 +169,8 @@ class class_guiHandle:
             guiObj_portDuplexLabelpt2["height"] = 3
             guiObj_portDuplexLabelpt2.grid(row = (4 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
+
+            #/ Port Speed
             guiObj_portSpeedLabelpt1["text"] = "Port Speed: "
             guiObj_portSpeedLabelpt1["width"] = 16
             guiObj_portSpeedLabelpt1["height"] = 3
@@ -149,8 +182,9 @@ class class_guiHandle:
             guiObj_portSpeedLabelpt2.grid(row = (5 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
         elif var_shIntDetails == False:
-            for guiLabel in guiObjArr_intDetails:
-                guiLabel.grid_forget()
+            for guiArr in guiMatrix_intDetails:
+                for guiObj in  guiArr:
+                    guiObj.grid_forget()
 
 
     #/ @func_guiHandleInterfaceMenu

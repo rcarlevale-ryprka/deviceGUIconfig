@@ -52,6 +52,8 @@ class class_main:
         debug.class_debug.func_debugOut("Program Start")
 
         guiHandle.class_guiHandle.func_guiHandleMain()
+
+        debug.class_debug.func_debugOut("Program Stop")
         
 
 #/
