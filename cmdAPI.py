@@ -46,7 +46,7 @@ class class_commandAPI:
             'end'
         ]
 
-        arr_VLANs = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        print(conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp))
 
 
     def func_setVLAN(var_hostnameConf):
