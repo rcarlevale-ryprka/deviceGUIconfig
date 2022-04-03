@@ -40,13 +40,12 @@ class class_connectAPI:
             for command in arr_cmdInp:
                 ser.write(str(command).encode("utf-8"))
                 ser.write('\r'.encode("utf-8"))
-                arr_serialReturn.append(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
-                #print(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
-                time.sleep(0.5)
+                print(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
+                time.sleep(3)
 
             ser.close()
 
-        return arr_serialReturn
+        return ...
 
 
     #/ @func_sshConInstance()

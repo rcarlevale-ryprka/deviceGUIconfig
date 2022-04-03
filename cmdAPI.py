@@ -38,29 +38,39 @@ class class_commandAPI:
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
+    #/ @func_getVLAN
+    #/ Gets VLAN information.
     def func_getVLAN():
         arr_cmdInp = [
             '\r',
             'en',
-            'show vlan',
+            'terminal length 0',
+            'show running-config',
             'end'
         ]
 
-        print(conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp))
+        conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
-    def func_setVLAN(var_hostnameConf):
+    #/ @func_setVLAN
+    #/ Sets VLAN on cisco interface.
+    def func_setVLAN(var_intNum, var_vlanNum):
         arr_cmdInp = [
             '\r',
             'en',
             'conf t',
-            ('hostname ' + var_hostnameConf),
+            ('int ' + var_intNum),
+            'switchport mode access',
+            ('switchport access vlan ' + var_vlanNum),
             'end',
             'end'
         ]
 
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
+
+    #/ @func_removeVLAN
+    #/ Removes VLAN from interface.
     def func_removeVLAN(var_intNum, var_vlanNum):
         var_intNum = "GigabitEthernet1/0/" + var_intNum
 
@@ -71,7 +81,6 @@ class class_commandAPI:
             ('int ' + var_intNum),
             'switchport mode access',
             ('switchport access vlan ' + var_vlanNum),
-            'end',
             'end',
             'end'
         ]
@@ -91,6 +100,6 @@ class class_commandAPI:
 
 #/
 
-testBool = False
+testBool = True
 if testBool == True:
     class_commandAPI.func_testMethod()
