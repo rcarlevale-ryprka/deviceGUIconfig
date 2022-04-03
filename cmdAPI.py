@@ -27,8 +27,9 @@ class class_commandAPI:
     #/ Sets a network devices hostname.
     def func_setHostname(var_hostnameConf):
         arr_cmdInp = [
+            '\r',
             'en',
-            'conf',
+            'conf t',
             ('hostname ' + var_hostnameConf),
             'exit',
             'exit '
@@ -37,16 +38,59 @@ class class_commandAPI:
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
+    def func_getVLAN():
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'show vlan',
+            'end'
+        ]
+
+        arr_VLANs = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+
+
+    def func_setVLAN(var_hostnameConf):
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'conf t',
+            ('hostname ' + var_hostnameConf),
+            'end',
+            'end'
+        ]
+
+        conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+
+    def func_removeVLAN(var_intNum, var_vlanNum):
+        var_intNum = "GigabitEthernet1/0/" + var_intNum
+
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'conf t',
+            ('int ' + var_intNum),
+            'switchport mode access',
+            ('switchport access vlan ' + var_vlanNum),
+            'end',
+            'end',
+            'end'
+        ]
+
+        conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+
+
     #/ @func_testMethod
     #/ Purpose: Allows this file to be run and tested without other necessities.
     def func_testMethod():
-        class_commandAPI.func_setHostname(input("Switch Hostname: "))
+        #class_commandAPI.func_setHostname(input("Switch Hostname: "))
+        #class_commandAPI.func_removeVLAN(input("INT: "), input("VLAN: "))
+        class_commandAPI.func_getVLAN()
 
     
 
 
 #/
 
-testBool = False
+testBool = True
 if testBool == True:
     class_commandAPI.func_testMethod()

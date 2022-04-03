@@ -12,7 +12,7 @@
         "doDebugging" : true
     },
     "conSettings" : {
-        "serialComNum" : "COM12",
+        "serialComNum" : "COM7",
         "serialComSpeed" : 9600
     }
 }
