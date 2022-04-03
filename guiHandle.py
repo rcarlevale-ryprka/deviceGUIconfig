@@ -80,13 +80,39 @@ class class_guiHandle:
     #/ Purpose: GUI that handles loading and downloading the config.
     def func_guiHandleNDconfigManage():
         global bool_menuBusy
+        global guiObj_shConfigLoadButton
 
-        if 'arr_NDconfigManageMenu' not in globals():
-            ...
+        if 'arr_configGUIObjs' not in globals():
+            global guiObj_downNDconfig
+            guiObj_downNDconfig = tkinter.Button(guiHandle)
+
+            global guiObj_upNDconfig
+            guiObj_upNDconfig = tkinter.Button(guiHandle)
+
+            global arr_configGUIObjs
+            arr_configGUIObjs = [guiObj_downNDconfig, guiObj_upNDconfig]
+
 
         if bool_menuBusy == False:
+            guiObj_downNDconfig["text"] = "Download Config"
+            guiObj_downNDconfig["width"] = 20
+            guiObj_downNDconfig["height"] = 3
+            guiObj_downNDconfig.grid(row = 1, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+
+            guiObj_upNDconfig["text"] = "Upload Config"
+            guiObj_upNDconfig["width"] = 20
+            guiObj_upNDconfig["height"] = 3
+            guiObj_upNDconfig.grid(row = 1, column = 2, sticky = tkinter.E, padx = 10, pady = 10)
+ 
+            guiObj_shConfigLoadButton["text"] = "Hide Config Loader"
             bool_menuBusy = True
+
+
         elif bool_menuBusy == True:
+            for guiObj in arr_configGUIObjs:
+                guiObj.grid_forget()
+
+            guiObj_shConfigLoadButton["text"] = "Show Config Loader"
             bool_menuBusy = False
 
     
@@ -307,6 +333,8 @@ class class_guiHandle:
     def func_guiHandlePrgMenu():
         global guiObj_exitButton
         global guiObj_shInterfacesButton
+        global guiObj_shConTypeButton
+        global guiObj_shConfigLoadButton
 
         # Exit Button
         guiObj_exitButton = tkinter.Button(guiHandle)
@@ -338,7 +366,7 @@ class class_guiHandle:
         guiObj_shConfigLoadButton["text"] = "Show Config Loader"
         guiObj_shConfigLoadButton["width"] = 30
         guiObj_shConfigLoadButton["height"] = 3
-        guiObj_shConfigLoadButton["command"] = ...
+        guiObj_shConfigLoadButton["command"] = lambda: class_guiHandle.func_guiHandleNDconfigManage()
         guiObj_shConfigLoadButton.grid(row = 2, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
