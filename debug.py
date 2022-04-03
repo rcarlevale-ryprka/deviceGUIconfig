@@ -10,23 +10,17 @@ import json
 
 
 
-#/ @Load Settings File
-#/ Purpose: Loads manually. 
-with open('settings.json', 'r') as confFile:
-    doDebug = confFile["debugSettings"]["doDebugging"]
-    doLogging = confFile["debugSettings"]["doLogging"]
 
 #/
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-#/ @class_settingsManage
-#/ Purpose: Loads settings.json file for entire program.
+#/ @func_settingsManage
+#/ Purpose: Loads settings.json file for when this method is called.
 
-class class_settingsManage:
-    def class_settingsManage():
-        with open('settings.json', 'r') as confFile:
-            return(json.load(confFile))
+def func_loadConfig():
+    with open('config.json', 'r') as confFile:
+        return(json.load(confFile))
 
 
 
@@ -44,38 +38,27 @@ class class_debug:
     #/ @func_logFileOut
     #/ Purpose: To write and create log file.
     def func_logFileOut(var_stringInp):
-
-        #/ Try/Catch block for seeing if logging file exists. If not, spits error.
-        try:
-            file_logFile = open('C:\\NDM.txt', 'a')
-            file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
-            file_logFile.close()
-            pass
-        except IOError:
-            print(class_debug.func_getTime() + " (ERROR) Couldn't create file for logging.")
-
-
-
-
-        
-
+        if func_loadConfig()["debugSettings"]["doLogging"] == True:
+            try:
+                file_logFile = open('C:\\NDM.txt', 'a')
+                file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
+                file_logFile.close()
+                pass
+            except IOError:
+                print(class_debug.func_getTime() + " (ERROR) Couldn't create file for logging.")
 
 
     #/ @func_debugOut
     #/ Purpose: Temporary debug method meant to output a variable.
     def func_debugOut(var_stringInp):
+        if func_loadConfig()["debugSettings"]["doDebugging"] == True:
+            if type(var_stringInp) == str:
+                class_debug.func_logFileOut(var_stringInp)
+                pass
+            else:
+                raise TypeError(class_debug.func_getTime() + " (ERROR) Debug Variable Not String")
 
-        
-        if type(var_stringInp) == str:
-            class_debug.func_logFileOut(var_stringInp)
-            pass
-        else:
-            raise TypeError(class_debug.func_getTime() + " (ERROR) Debug Variable Not String")
-
-        print(class_debug.func_getTime() + " " + var_stringInp)
-
-
-        
+            print(class_debug.func_getTime() + " " + var_stringInp)
 
 
 

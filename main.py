@@ -35,18 +35,8 @@ import guiHandle
 
 class class_main:
 
-    #/ @func_defineConnection
-    #/ Purpose: Defines whether the network devices are through a console server or
-    #/ are connected locally. If they are connected locally, then it tries to identify the connection  
-    #/ or prompt the user.
-    def func_defineConnection ():
-
-        ...
-
-
     #/ @func_main
     #/ Purpose: Main function in the main class.
-
     def func_main():
         # Initializing Start of Program
         debug.class_debug.func_debugOut("Program Start")

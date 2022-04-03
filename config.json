@@ -1,5 +1,5 @@
 {
-	"projectSettings" : {
+	"projectDetails" : {
         "projectName" : "Network Device Manager"
     },
     "guiSettings" : {
@@ -10,5 +10,9 @@
     "debugSettings" : {
         "doLogging" : true,
         "doDebugging" : true
+    },
+    "conSettings" : {
+        "serialComNum" : "COM12",
+        "serialComSpeed" : 9600
     }
 }
