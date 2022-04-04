@@ -16,12 +16,46 @@ import conAPI
 #/ Purpose: Filler purpose. 
 
 class class_commandAPI:
+    def func_parseData(var_parseString):
+        arr_parseString = []
+        arr_parseString = var_parseString.split("!")
+        
+
+        for command in arr_parseString:
+            arr_parseString[arr_parseString.index(command)] = command.replace('\r\n','')
+
+        #print(arr_parseString)
+        return arr_parseString
+        
     
  
 
-    #/ Sets a port's VLAN.
-    def func_setVLAN():
-        ... #/ Filler. Remove when you write code.
+
+    #/ @func_getInts
+    #/ Purpose: Grabs how many interfaces are on the given device.
+    def func_getInts():
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'terminal length 0',
+            'show running-config',
+            'end'
+        ]
+
+        var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
+        
+
+        arr_intList = []
+
+        for command in arr_runningConf:
+            if str(command).__contains__("/"):
+                var_cmdCut = command.replace("interface ", "")
+                arr_intList.append(str(var_cmdCut))
+        
+        return arr_intList
+
+
 
     #/ @func_setHostname
     #/ Sets a network devices hostname.
@@ -49,7 +83,19 @@ class class_commandAPI:
             'end'
         ]
 
-        conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
+
+        arr_intVlanList = []
+
+        for command in arr_runningConf:
+            if str(command).__contains__("/") or str(command).__contains__("switchport access vlan"):
+                var_cmdCut = command.replace("interface ", "")
+                arr_intVlanList.append(str(var_cmdCut))
+
+        print(arr_intVlanList)
+
+        
 
 
     #/ @func_setVLAN

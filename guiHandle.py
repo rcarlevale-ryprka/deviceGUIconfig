@@ -11,6 +11,7 @@ import random
 import time
 
 import debug
+import cmdAPI
 
 
 #/ 
@@ -279,10 +280,12 @@ class class_guiHandle:
         if bool_menuBusy == False and globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] == False:
             var_intMenuColShift = -1
 
-            for interface in netDevMatrix[1]:
+            var_netDevInterfaces = cmdAPI.class_commandAPI.func_getInts()
+
+            for interface in var_netDevInterfaces:
                 #/ Shifts GUI down 1 row if the amount of interfaces on the device is 8 or greater.
                 var_intMenuColShift += 1
-                var_guiShiftNum = netDevMatrix[1].index(interface) / 8
+                var_guiShiftNum = var_netDevInterfaces.index(interface) / 8
                 if var_guiShiftNum >= 1 and var_intMenuColShift > 7:
                     global var_intMenuRowShift
                     var_intMenuRowShift += 1
@@ -297,7 +300,7 @@ class class_guiHandle:
 
                 #/ Sends variabless to another function when the button is clicked.
                 #/ This temporarily just prints whatever port interface.
-                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = netDevMatrix[1].index(interface): class_guiHandle.func_guiHandleInterfaceDetails(False, int)
+                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = var_netDevInterfaces.index(interface): class_guiHandle.func_guiHandleInterfaceDetails(False, int)
 
                 globals()['guiObj_netdevIntButton' + str(interface)].grid(row = (1 + var_intMenuRowShift), column = (1 + var_intMenuColShift), sticky = tkinter.N, padx = 10, pady = 10) #/Sets position in window.
 

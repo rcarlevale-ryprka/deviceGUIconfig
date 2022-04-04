@@ -34,18 +34,20 @@ class class_connectAPI:
             # Establishes serial connection in console.
             print(f"Connecting to {ser.name}...")
 
-            arr_serialReturn = []
+            var_serialReturn = ""
 
             # A loop that sends each command in an array of commands that have been sent.
             for command in arr_cmdInp:
                 ser.write(str(command).encode("utf-8"))
                 ser.write('\r'.encode("utf-8"))
-                print(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
+                #arr_serialReturn.append(str(ser.read(ser.inWaiting()).decode("utf-8")))
+                var_serialReturn += (str(ser.read(ser.inWaiting()).decode("utf-8")))
+                #str(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
                 time.sleep(3)
 
             ser.close()
 
-        return ...
+        return var_serialReturn
 
 
     #/ @func_sshConInstance()
