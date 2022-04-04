@@ -5,7 +5,9 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+from numpy import var
 import conAPI
+import time
 
 
 #/
@@ -45,15 +47,18 @@ class class_commandAPI:
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
         arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
         
-
+        arr_intListRaw = []
         arr_intList = []
 
-        for command in arr_runningConf:
-            if str(command).__contains__("/"):
-                var_cmdCut = command.replace("interface ", "")
+        for cmdItem in arr_runningConf:
+            if str(cmdItem).__contains__("0/") and not str(cmdItem).__contains__(":"):
+                var_cmdCut = cmdItem.replace("interface ", "")
+                arr_intListRaw.append(str(var_cmdCut))
+                if var_cmdCut.__contains__(" "):
+                    var_cmdCut = var_cmdCut[0:(var_cmdCut.index(" "))]
                 arr_intList.append(str(var_cmdCut))
         
-        return arr_intList
+        return [arr_intListRaw, arr_intList]
 
 
 
@@ -84,15 +89,28 @@ class class_commandAPI:
         ]
 
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        arr_intList = class_commandAPI.func_getInts()
         arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
 
         arr_intVlanList = []
 
-        for command in arr_runningConf:
-            if str(command).__contains__("/") or str(command).__contains__("switchport access vlan"):
-                var_cmdCut = command.replace("interface ", "")
-                arr_intVlanList.append(str(var_cmdCut))
+        for cmdItem in arr_intList[1]:
+            for subCmdItem in arr_runningConf:
 
+                if subCmdItem.__contains__(cmdItem):
+                    print(subCmdItem)
+
+                    if subCmdItem.__contains__("vlan"):
+
+                        var_vlanDigit = ""
+                        for strItem in (subCmdItem[subCmdItem.index("vlan"):(subCmdItem.index("vlan") + 10)]):
+                            if strItem.isdigit():
+                                var_vlanDigit += strItem
+
+                        arr_intVlanList.append(var_vlanDigit)
+                    else:
+                        arr_intVlanList.append("1")
+                    
         print(arr_intVlanList)
 
         

@@ -280,7 +280,8 @@ class class_guiHandle:
         if bool_menuBusy == False and globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] == False:
             var_intMenuColShift = -1
 
-            var_netDevInterfaces = cmdAPI.class_commandAPI.func_getInts()
+            var_netDevInterfaces = (cmdAPI.class_commandAPI.func_getInts())[1]
+            print(var_netDevInterfaces)
 
             for interface in var_netDevInterfaces:
                 #/ Shifts GUI down 1 row if the amount of interfaces on the device is 8 or greater.
@@ -313,7 +314,7 @@ class class_guiHandle:
             bool_menuBusy = True
 
         elif bool_menuBusy == True:
-            for interface in netDevMatrix[1]:
+            for interface in (cmdAPI.class_commandAPI.func_getInts())[1]:
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
                 globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False
 
@@ -353,7 +354,7 @@ class class_guiHandle:
         guiObj_shConTypeButton["width"] = 30
         guiObj_shConTypeButton["height"] = 3
         #guiObj_shConTypeButton["command"] = lambda: [class_guiHandle.func_guiHandleInterfaceMenu(True), class_guiHandle.func_guiHandleInterfaceDetails(0)] #For whatever reason this doesn't work without lambda.
-        guiObj_shConTypeButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+        guiObj_shConTypeButton.grid(row = 3, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
         # Show & Hide Interfaces Button
@@ -362,7 +363,7 @@ class class_guiHandle:
         guiObj_shInterfacesButton["width"] = 30
         guiObj_shInterfacesButton["height"] = 3
         guiObj_shInterfacesButton["command"] = lambda: [class_guiHandle.func_guiHandleInterfaceMenu(), class_guiHandle.func_guiHandleInterfaceDetails(True, 0)] #For whatever reason this doesn't work without lambda.
-        guiObj_shInterfacesButton.grid(row = 3, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+        guiObj_shInterfacesButton.grid(row = 2, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
         # Show & Hide Config Load Button
         guiObj_shConfigLoadButton = tkinter.Button(guiHandle)
@@ -370,7 +371,7 @@ class class_guiHandle:
         guiObj_shConfigLoadButton["width"] = 30
         guiObj_shConfigLoadButton["height"] = 3
         guiObj_shConfigLoadButton["command"] = lambda: class_guiHandle.func_guiHandleNDconfigManage()
-        guiObj_shConfigLoadButton.grid(row = 2, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
+        guiObj_shConfigLoadButton.grid(row = 1, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
 
