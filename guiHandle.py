@@ -5,6 +5,7 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+import cmd
 import tkinter
 from tkinter.filedialog import askopenfilename
 import random
@@ -34,7 +35,7 @@ var_intMenuRowShift = 0
 #/ Setup global variables for this file. Has testing variables that will be replaced later.
 
 #Test values for network device information.
-netDevInfo = ["Switch", "Layer 2"]
+netDevInfo = []
 
 netDevPort = []
 netDevPortConStatus = []
@@ -43,10 +44,6 @@ netDevPortDuplex = []
 netDevPortSpeed = []
 netDevPortType = []
 
-num = 0
-while num <= 23:
-    netDevPort.append("Fa" + str(num))
-    num += 1
 
 
 for i in netDevPort:
@@ -66,8 +63,16 @@ netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, net
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-#/ @class_name_filler
-#/ Purpose: Filler purpose. 
+#/ @class_
+#/ Purpose: 
+class class_intialInfoGrab:
+    netDevPort = cmdAPI.class_commandAPI.func_getInts()[1]
+    
+
+
+
+#/ @class_guiHandle
+#/ Purpose: Handles all GUI objects and window management.
 
 class class_guiHandle:
     #/ @func_guiHandleExit
@@ -216,7 +221,7 @@ class class_guiHandle:
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1.grid(row = (3 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
-            guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][var_portNum])
+            guiObj_portVLANLabelpt2["text"] = str(cmdAPI.class_commandAPI.func_getVLAN(var_intName)[var_portNum])
             guiObj_portVLANLabelpt2.grid(row = (3 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
             guiObj_portVLANInpBox["height"] = 1
@@ -270,14 +275,13 @@ class class_guiHandle:
             if ('guiObj_netdevIntButton' + interface) not in globals():
                 #/ Variable created for each button that holds it's visibility True or False.
                 #/ Should result in a variable in this format:  guiObj_netdevIntButtonFa0Vis
-                globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False 
                 #/ Creates global variable for GUI button.
                 #/ Should result in a variable in this format:  guiObj_netdevIntButtonFa0
                 globals()['guiObj_netdevIntButton' + str(interface)] = None
 
 
         #/ Tests if the visibility of the buttons is true or not and swiches the visibility.
-        if bool_menuBusy == False and globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] == False:
+        if bool_menuBusy == False:
             var_intMenuColShift = -1
 
             var_netDevInterfaces = (cmdAPI.class_commandAPI.func_getInts())[1]
@@ -301,11 +305,9 @@ class class_guiHandle:
 
                 #/ Sends variabless to another function when the button is clicked.
                 #/ This temporarily just prints whatever port interface.
-                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = var_netDevInterfaces.index(interface): class_guiHandle.func_guiHandleInterfaceDetails(False, int)
+                globals()['guiObj_netdevIntButton' + str(interface)]["command"] = lambda int = var_netDevInterfaces.index(interface), intname = globals()['guiObj_netdevIntButton' + str(interface)]["text"]: class_guiHandle.func_guiHandleInterfaceDetails(False, int)
 
                 globals()['guiObj_netdevIntButton' + str(interface)].grid(row = (1 + var_intMenuRowShift), column = (1 + var_intMenuColShift), sticky = tkinter.N, padx = 10, pady = 10) #/Sets position in window.
-
-                globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = True
 
             #/ Updates show/hide network device button text and comamnd.
             guiObj_shInterfacesButton["text"] = "Hide Network Device Ports"
@@ -316,7 +318,6 @@ class class_guiHandle:
         elif bool_menuBusy == True:
             for interface in (cmdAPI.class_commandAPI.func_getInts())[1]:
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
-                globals()['guiObj_netdevIntButton' + str(interface) + 'Vis'] = False
 
             class_guiHandle.func_guiHandleInterfaceDetails(True, int)
 
@@ -399,6 +400,7 @@ class class_guiHandle:
         guiHandle.rowconfigure(20, weight = 200)
 
         # Calling method that will load the GUI objects.
+        class_intialInfoGrab()
         class_guiHandle.func_guiHandlePrgMenu()
 
         # Starts GUI and loops it's existence.

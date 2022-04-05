@@ -5,6 +5,8 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
+from cProfile import run
+import cmd
 from numpy import var
 import conAPI
 import time
@@ -79,7 +81,7 @@ class class_commandAPI:
 
     #/ @func_getVLAN
     #/ Gets VLAN information.
-    def func_getVLAN():
+    def func_getVLAN(var_intName):
         arr_cmdInp = [
             '\r',
             'en',
@@ -89,29 +91,23 @@ class class_commandAPI:
         ]
 
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
-        arr_intList = class_commandAPI.func_getInts()
         arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
 
         arr_intVlanList = []
 
-        for cmdItem in arr_intList[1]:
-            for subCmdItem in arr_runningConf:
-
-                if subCmdItem.__contains__(cmdItem):
-                    print(subCmdItem)
-
-                    if subCmdItem.__contains__("vlan"):
-
-                        var_vlanDigit = ""
-                        for strItem in (subCmdItem[subCmdItem.index("vlan"):(subCmdItem.index("vlan") + 10)]):
-                            if strItem.isdigit():
-                                var_vlanDigit += strItem
-
-                        arr_intVlanList.append(var_vlanDigit)
-                    else:
-                        arr_intVlanList.append("1")
+        for cmdItem in arr_runningConf:
+            if cmdItem.__contains__(var_intName) and cmdItem.__contains__("vlan"):
+                print("if")
+                if cmdItem[cmdItem.index("vlan"):(cmdItem.index("vlan") + 10)]:
+                    var_vlanNum = (cmdItem[cmdItem.index("vlan"):(cmdItem.index("vlan") + 10)].split(" "))[1]
+                    arr_intVlanList.append(var_vlanNum)
+            elif cmdItem.__contains__(var_intName[0:(len(var_intName) - 3)]):
+                print("elif")
+                arr_intVlanList.append("1")
                     
+        
         print(arr_intVlanList)
+        return arr_intVlanList
 
         
 
@@ -157,13 +153,13 @@ class class_commandAPI:
     def func_testMethod():
         #class_commandAPI.func_setHostname(input("Switch Hostname: "))
         #class_commandAPI.func_removeVLAN(input("INT: "), input("VLAN: "))
-        class_commandAPI.func_getVLAN()
+        class_commandAPI.func_getVLAN("FastEthernet0/23")
 
     
 
 
 #/
 
-testBool = True
+testBool = False
 if testBool == True:
     class_commandAPI.func_testMethod()
