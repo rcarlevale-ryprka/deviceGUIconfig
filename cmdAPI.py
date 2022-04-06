@@ -21,15 +21,47 @@ import time
 
 class class_commandAPI:
     def func_parseData(var_parseString):
-        arr_parseString = []
-        arr_parseString = var_parseString.split("!")
+        arr_parseString = var_parseString.splitlines()
+
+        var_arrStartNum = 0
+        arr_intDetailsList = []
+
+        for cmdLine in arr_parseString:
+            if cmdLine.__contains__("Port"):
+                var_arrStartNum = arr_parseString.index(cmdLine) + 1
+                break
+            else:
+                arr_parseString.pop(arr_parseString.index(cmdLine))
+
         
+        for cmdLine in arr_parseString[var_arrStartNum:len(arr_parseString)]:
+            while '  ' in cmdLine:
+                cmdLine = cmdLine.replace('  ', ' ')
 
-        for command in arr_parseString:
-            arr_parseString[arr_parseString.index(command)] = command.replace('\r\n','')
+            arr_cmdLine = cmdLine.split(' ')
 
-        #print(arr_parseString)
-        return arr_parseString
+            arr_intDetailsList += [arr_cmdLine]
+
+        arr_intDetailsList.pop(len(arr_intDetailsList) - 1)
+
+        return arr_intDetailsList
+
+
+    #/ @func_getIntStatus
+    #/ Purpose: 
+    def func_getIntDetails():
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'terminal length 0',
+            'show int status',
+            'end'
+        ]
+
+        var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        arr_intStatDetails = class_commandAPI.func_parseData(var_rawConfigString)
+
+        return arr_intStatDetails
         
     
  
@@ -38,29 +70,14 @@ class class_commandAPI:
     #/ @func_getInts
     #/ Purpose: Grabs how many interfaces are on the given device.
     def func_getInts():
-        arr_cmdInp = [
-            '\r',
-            'en',
-            'terminal length 0',
-            'show running-config',
-            'end'
-        ]
+        arr_intStatDetails = class_commandAPI.func_getIntDetails()
+        arr_intNames = []
 
-        var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
-        arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
+        for arr_singleIntDetails in arr_intStatDetails:
+            arr_intNames.append(arr_singleIntDetails[0])
         
-        arr_intListRaw = []
-        arr_intList = []
-
-        for cmdItem in arr_runningConf:
-            if str(cmdItem).__contains__("0/") and not str(cmdItem).__contains__(":"):
-                var_cmdCut = cmdItem.replace("interface ", "")
-                arr_intListRaw.append(str(var_cmdCut))
-                if var_cmdCut.__contains__(" "):
-                    var_cmdCut = var_cmdCut[0:(var_cmdCut.index(" "))]
-                arr_intList.append(str(var_cmdCut))
-        
-        return [arr_intListRaw, arr_intList]
+        print(arr_intNames)
+        return arr_intNames
 
 
 
@@ -79,37 +96,38 @@ class class_commandAPI:
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
+    ###/
+    ###/ SECTION
+    ###/ CONNECTION STATUS
+    ###/
+
+    #/ @func_
+    #/ Purpose: 
+    def func_getConStatus():
+        arr_intStatDetails = class_commandAPI.func_getIntDetails()
+        arr_conStatus = []
+
+        for arr_singleIntDetails in arr_intStatDetails:
+            arr_conStatus.append(arr_singleIntDetails[1])
+        
+        return arr_conStatus
+
+
+    ###/
+    ###/ SECTION
+    ###/ VLAN FUNCTIONS
+    ###/
+
     #/ @func_getVLAN
     #/ Gets VLAN information.
-    def func_getVLAN(var_intName):
-        arr_cmdInp = [
-            '\r',
-            'en',
-            'terminal length 0',
-            'show running-config',
-            'end'
-        ]
+    def func_getVLAN():
+        arr_intStatDetails = class_commandAPI.func_getIntDetails()
+        arr_vlanNums = []
 
-        var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
-        arr_runningConf = class_commandAPI.func_parseData(var_rawConfigString)
-
-        arr_intVlanList = []
-
-        for cmdItem in arr_runningConf:
-            if cmdItem.__contains__(var_intName) and cmdItem.__contains__("vlan"):
-                print("if")
-                if cmdItem[cmdItem.index("vlan"):(cmdItem.index("vlan") + 10)]:
-                    var_vlanNum = (cmdItem[cmdItem.index("vlan"):(cmdItem.index("vlan") + 10)].split(" "))[1]
-                    arr_intVlanList.append(var_vlanNum)
-            elif cmdItem.__contains__(var_intName[0:(len(var_intName) - 3)]):
-                print("elif")
-                arr_intVlanList.append("1")
-                    
+        for arr_singleIntDetails in arr_intStatDetails:
+            arr_vlanNums.append(arr_singleIntDetails[2])
         
-        print(arr_intVlanList)
-        return arr_intVlanList
-
-        
+        return arr_vlanNums
 
 
     #/ @func_setVLAN
@@ -148,12 +166,55 @@ class class_commandAPI:
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
+
+    ###/
+    ###/ SECTION
+    ###/ DUPLEX
+    ###/
+
+    #/ @func_
+    #/ Purpose: 
+    def func_getDuplexStats():
+        arr_intStatDetails = class_commandAPI.func_getIntDetails()
+        arr_duplexStats = []
+
+        for arr_singleIntDetails in arr_intStatDetails:
+            arr_duplexStats.append(arr_singleIntDetails[3])
+        
+        return arr_duplexStats
+
+
+
+
+    ###/
+    ###/ SECTION
+    ###/ SPEED
+    ###/
+
+    #/ @func_
+    #/ Purpose: 
+    def func_getPortSpeed():
+        arr_intStatDetails = class_commandAPI.func_getIntDetails()
+        arr_portSpeed = []
+
+        for arr_singleIntDetails in arr_intStatDetails:
+            arr_portSpeed.append(arr_singleIntDetails[4])
+        
+        return arr_portSpeed
+
+
+
+
+
+
+
+
+
     #/ @func_testMethod
     #/ Purpose: Allows this file to be run and tested without other necessities.
     def func_testMethod():
-        #class_commandAPI.func_setHostname(input("Switch Hostname: "))
-        #class_commandAPI.func_removeVLAN(input("INT: "), input("VLAN: "))
-        class_commandAPI.func_getVLAN("FastEthernet0/23")
+        class_commandAPI.func_getConStatus()
+        print(class_commandAPI.func_getConStatus())
 
     
 

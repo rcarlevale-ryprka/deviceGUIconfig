@@ -42,20 +42,10 @@ netDevPortConStatus = []
 netDevPortVLAN = []
 netDevPortDuplex = []
 netDevPortSpeed = []
-netDevPortType = []
 
+netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed]
 
-
-for i in netDevPort:
-    netDevPortConStatus.append("notconnect")
-    netDevPortVLAN.append(random.randint(0, 99))
-    netDevPortDuplex.append("auto")
-    netDevPortSpeed.append("auto")
-    netDevPortType.append("10/100 BaseTX")
-
-netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, netDevPortDuplex, netDevPortSpeed, netDevPortType]
-
-
+global var_netDevInterfaces
 
 
 
@@ -63,13 +53,8 @@ netDevMatrix = [netDevInfo, netDevPort, netDevPortConStatus, netDevPortVLAN, net
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-#/ @class_
-#/ Purpose: 
-class class_intialInfoGrab:
-    netDevPort = cmdAPI.class_commandAPI.func_getInts()[1]
-    
-
-
+class class_infoGrab:
+    ...
 
 #/ @class_guiHandle
 #/ Purpose: Handles all GUI objects and window management.
@@ -208,6 +193,7 @@ class class_guiHandle:
             guiObj_portStatusLabelpt1["text"] = "Port Status: "
             guiObj_portStatusLabelpt1.grid(row = (2 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
+            netDevMatrix[2] = cmdAPI.class_commandAPI.func_getConStatus()
             guiObj_portStatusLabelpt2["text"] = str(netDevMatrix[2][var_portNum])
             guiObj_portStatusLabelpt2.grid(row = (2 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
@@ -221,7 +207,8 @@ class class_guiHandle:
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1.grid(row = (3 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
-            guiObj_portVLANLabelpt2["text"] = str(cmdAPI.class_commandAPI.func_getVLAN(var_intName)[var_portNum])
+            netDevMatrix[3] = cmdAPI.class_commandAPI.func_getVLAN()
+            guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][var_portNum])
             guiObj_portVLANLabelpt2.grid(row = (3 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
             guiObj_portVLANInpBox["height"] = 1
@@ -234,6 +221,7 @@ class class_guiHandle:
             guiObj_portDuplexLabelpt1["text"] = "Duplex: "
             guiObj_portDuplexLabelpt1.grid(row = (4 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
+            netDevMatrix[4] = cmdAPI.class_commandAPI.func_getDuplexStats()
             guiObj_portDuplexLabelpt2["text"] = str(netDevMatrix[4][var_portNum])
             guiObj_portDuplexLabelpt2.grid(row = (4 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
@@ -247,7 +235,8 @@ class class_guiHandle:
             guiObj_portSpeedLabelpt1["text"] = "Port Speed: "
             guiObj_portSpeedLabelpt1.grid(row = (5 + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 0, pady = 10)
 
-            guiObj_portSpeedLabelpt2["text"] = str(netDevMatrix[4][var_portNum])
+            netDevMatrix[5] = cmdAPI.class_commandAPI.func_getPortSpeed()
+            guiObj_portSpeedLabelpt2["text"] = str((netDevMatrix[5])[var_portNum])
             guiObj_portSpeedLabelpt2.grid(row = (5 + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 0, pady = 10)
 
             guiObj_portSpeedInpBox["height"] = 1
@@ -284,8 +273,8 @@ class class_guiHandle:
         if bool_menuBusy == False:
             var_intMenuColShift = -1
 
-            var_netDevInterfaces = (cmdAPI.class_commandAPI.func_getInts())[1]
-            print(var_netDevInterfaces)
+            global var_netDevInterfaces
+            var_netDevInterfaces = (cmdAPI.class_commandAPI.func_getInts())
 
             for interface in var_netDevInterfaces:
                 #/ Shifts GUI down 1 row if the amount of interfaces on the device is 8 or greater.
@@ -316,7 +305,8 @@ class class_guiHandle:
             bool_menuBusy = True
 
         elif bool_menuBusy == True:
-            for interface in (cmdAPI.class_commandAPI.func_getInts())[1]:
+            global var_netDevInterfaces
+            for interface in (var_netDevInterfaces):
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
 
             class_guiHandle.func_guiHandleInterfaceDetails(True, int)
@@ -400,7 +390,6 @@ class class_guiHandle:
         guiHandle.rowconfigure(20, weight = 200)
 
         # Calling method that will load the GUI objects.
-        class_intialInfoGrab()
         class_guiHandle.func_guiHandlePrgMenu()
 
         # Starts GUI and loops it's existence.
