@@ -305,7 +305,7 @@ class class_guiHandle:
             bool_menuBusy = True
 
         elif bool_menuBusy == True:
-            global var_netDevInterfaces
+            #global var_netDevInterfaces
             for interface in (var_netDevInterfaces):
                 globals()['guiObj_netdevIntButton' + str(interface)].grid_forget()
 
