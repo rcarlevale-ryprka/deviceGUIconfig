@@ -61,6 +61,9 @@ class class_commandAPI:
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
         arr_intStatDetails = class_commandAPI.func_parseData(var_rawConfigString)
 
+        print("=============================")
+        print(arr_intStatDetails)
+        print("=============================")
         return arr_intStatDetails
         
     
@@ -133,17 +136,21 @@ class class_commandAPI:
     #/ @func_setVLAN
     #/ Sets VLAN on cisco interface.
     def func_setVLAN(var_intNum, var_vlanNum):
+        print(var_intNum, var_vlanNum)
+
+        var_intRef = class_commandAPI.func_getInts()[var_intNum]
+
         arr_cmdInp = [
             '\r',
             'en',
             'conf t',
-            ('int ' + var_intNum),
+            ('int ' + var_intRef),
             'switchport mode access',
             ('switchport access vlan ' + var_vlanNum),
             'end',
             'end'
         ]
-
+            
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 

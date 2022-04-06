@@ -43,7 +43,7 @@ class class_connectAPI:
                 #arr_serialReturn.append(str(ser.read(ser.inWaiting()).decode("utf-8")))
                 var_serialReturn += (str(ser.read(ser.inWaiting()).decode("utf-8")))
                 #str(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
-                time.sleep(3)
+                time.sleep(2.5)
 
             ser.close()
 
