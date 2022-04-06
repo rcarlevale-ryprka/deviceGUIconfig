@@ -20,6 +20,13 @@ import time
 #/ Purpose: Filler purpose. 
 
 class class_commandAPI:
+
+
+
+
+
+    #/ @func_parseData
+    #/ Purpose: 
     def func_parseData(var_parseString):
         arr_parseString = var_parseString.splitlines()
 
@@ -61,14 +68,26 @@ class class_commandAPI:
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
         arr_intStatDetails = class_commandAPI.func_parseData(var_rawConfigString)
 
-        print("=============================")
+        #print("=============================")
         print(arr_intStatDetails)
-        print("=============================")
+        print(len(arr_intStatDetails))
+        #print("=============================")
         return arr_intStatDetails
         
     
  
+    ###/
+    ###/ SECTION
+    ###/ TFTP SERVER
+    ###/
 
+
+
+
+    ###/
+    ###/ SECTION
+    ###/ INTERFACES
+    ###/
 
     #/ @func_getInts
     #/ Purpose: Grabs how many interfaces are on the given device.
@@ -79,9 +98,26 @@ class class_commandAPI:
         for arr_singleIntDetails in arr_intStatDetails:
             arr_intNames.append(arr_singleIntDetails[0])
         
-        print(arr_intNames)
         return arr_intNames
 
+
+
+    ###/
+    ###/ SECTION
+    ###/ CONNECTION STATUS
+    ###/
+
+    #/ @func_getHostname
+    #/ Sets a network devices hostname.
+    def func_getHostname():
+        arr_cmdInp = [
+            '\r',
+            'en'
+        ]
+
+        arr_cmdDetials =  conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+
+        return arr_cmdDetials[0:(len(arr_cmdDetials) - 1)]
 
 
     #/ @func_setHostname
@@ -93,7 +129,7 @@ class class_commandAPI:
             'conf t',
             ('hostname ' + var_hostnameConf),
             'exit',
-            'exit '
+            'exit'
         ]
 
         conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
@@ -220,8 +256,7 @@ class class_commandAPI:
     #/ @func_testMethod
     #/ Purpose: Allows this file to be run and tested without other necessities.
     def func_testMethod():
-        class_commandAPI.func_getConStatus()
-        print(class_commandAPI.func_getConStatus())
+        class_commandAPI.func_getHostname()
 
     
 
