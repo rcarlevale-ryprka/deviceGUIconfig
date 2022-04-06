@@ -5,9 +5,7 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
-from cProfile import run
 import cmd
-from numpy import var
 import conAPI
 import time
 
@@ -27,6 +25,27 @@ class class_commandAPI:
 
     #/ @func_parseData
     #/ Purpose: 
+
+    def func_altParseData(var_parseString):
+        arr_intDetailsList = []
+        arr_currInt = []
+
+        print(var_parseString.splitlines())
+        print("=============")
+
+
+        for line in var_parseString.splitlines():
+
+            if line.__contains__("net0/"):
+                arr_tempParse = line.split(" ")
+                arr_currInt = [arr_tempParse[0]]
+                print("TEST1")
+
+            arr_intDetailsList.append(arr_currInt)    
+
+        print("============")
+        print(arr_intDetailsList)
+
     def func_parseData(var_parseString):
         arr_parseString = var_parseString.splitlines()
 
@@ -61,17 +80,15 @@ class class_commandAPI:
             '\r',
             'en',
             'terminal length 0',
+            #'show int',
             'show int status',
             'end'
         ]
 
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
         arr_intStatDetails = class_commandAPI.func_parseData(var_rawConfigString)
+        #arr_intStatDetails = class_commandAPI.func_altParseData(var_rawConfigString)
 
-        #print("=============================")
-        print(arr_intStatDetails)
-        print(len(arr_intStatDetails))
-        #print("=============================")
         return arr_intStatDetails
         
     
@@ -256,13 +273,13 @@ class class_commandAPI:
     #/ @func_testMethod
     #/ Purpose: Allows this file to be run and tested without other necessities.
     def func_testMethod():
-        class_commandAPI.func_getHostname()
+        class_commandAPI.func_getIntDetails()
 
     
 
 
 #/
 
-testBool = False
+testBool = True
 if testBool == True:
     class_commandAPI.func_testMethod()
