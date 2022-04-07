@@ -67,7 +67,8 @@ class class_guiHandle:
     #/ @func_guiHandleExit
     #/ Purpose: Closes the program.
     def func_guiHandleExit():
-        debug.class_debug.func_debugOut("GUI Destroy Call")
+        
+        debug.class_debug.func_debugOut("class_guiHandle", "func+guiHandleExit", "GUI Destroy Call")
         guiHandle.destroy()
 
 

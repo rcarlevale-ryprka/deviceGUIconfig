@@ -39,11 +39,11 @@ class class_main:
     #/ Purpose: Main function in the main class.
     def func_main():
         # Initializing Start of Program
-        debug.class_debug.func_debugOut("Program Start")
+        debug.class_debug.func_debugOut("class_main", "func_main", "Program Started")
 
         guiHandle.class_guiHandle.func_guiHandleMain()
 
-        debug.class_debug.func_debugOut("Program Stop")
+        debug.class_debug.func_debugOut("class_main", "func_main", "Program Stopped")
         
 
 #/

@@ -14,5 +14,8 @@
     "conSettings" : {
         "serialComNum" : "COM7",
         "serialComSpeed" : 9600
+    },
+    "fileSettings" : {
+        "filePath" : "C:\\Program Files\\Network Device Manager"
     }
 }

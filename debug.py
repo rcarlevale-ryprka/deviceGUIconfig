@@ -40,7 +40,8 @@ class class_debug:
     def func_logFileOut(var_stringInp):
         if func_loadConfig()["debugSettings"]["doLogging"] == True:
             try:
-                file_logFile = open('C:\\NDM.txt', 'a')
+                var_logFilePath = func_loadConfig()["fileSettings"]["filePath"]
+                file_logFile = open(var_logFilePath, 'a')
                 file_logFile.write(class_debug.func_getTime() + " " + var_stringInp + "\r")
                 file_logFile.close()
                 pass
@@ -50,13 +51,15 @@ class class_debug:
 
     #/ @func_debugOut
     #/ Purpose: Temporary debug method meant to output a variable.
-    def func_debugOut(var_stringInp):
+    def func_debugOut(var_classID, var_funcID, var_stringInp):
         if func_loadConfig()["debugSettings"]["doDebugging"] == True:
             if type(var_stringInp) == str:
                 class_debug.func_logFileOut(var_stringInp)
                 pass
             else:
-                raise TypeError(class_debug.func_getTime() + " (ERROR) Debug Variable Not String")
+                raise TypeError(class_debug.func_getTime() + 
+                " [" + str(var_classID) + "] [" + str(var_funcID) + "]" + 
+                "\r (ERROR) Debug Variable Not String")
 
             print(class_debug.func_getTime() + " " + var_stringInp)
 

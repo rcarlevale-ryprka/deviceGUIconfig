@@ -5,9 +5,8 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
-import cmd
 import conAPI
-import time
+import debug
 
 
 #/
@@ -95,9 +94,34 @@ class class_commandAPI:
  
     ###/
     ###/ SECTION
-    ###/ TFTP SERVER
+    ###/ DOWN/UP CONFIG
     ###/
 
+    def func_getConf():
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'show running-config',
+            'exit'
+        ]
+
+        arr_downConf = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        var_confFilePath = debug.func_loadConfig()["fileSettings"]["filePath"]
+
+        try:
+            file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'r+')
+            file_configFile.close()
+        except:
+            debug.class_debug.func_debugOut("Creating network device configuration file.")
+            file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'a')
+            file_configFile.close()
+
+        file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'a')
+
+        for cmdItem in arr_downConf:
+            file_configFile.write(cmdItem)
+
+        file_configFile.close()
 
 
 
