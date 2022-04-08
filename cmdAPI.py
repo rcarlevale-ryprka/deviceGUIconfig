@@ -152,13 +152,18 @@ class class_commandAPI:
     #/ Sets a network devices hostname.
     def func_getHostname():
         arr_cmdInp = [
-            '\r',
             'en'
         ]
 
         arr_cmdDetials =  conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
-        return arr_cmdDetials[0:(len(arr_cmdDetials) - 1)]
+        print(arr_cmdDetials)
+        newStr = ""
+        for let in arr_cmdDetials[0]:
+            newStr += let
+
+
+        return newStr
 
 
     #/ @func_setHostname
@@ -304,6 +309,6 @@ class class_commandAPI:
 
 #/
 
-testBool = True
+testBool = False
 if testBool == True:
     class_commandAPI.func_testMethod()

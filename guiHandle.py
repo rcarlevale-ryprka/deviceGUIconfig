@@ -196,7 +196,7 @@ class class_guiHandle:
         # Checks if menu area is busy, if it isn't, shows menu items.
         if var_shIntDetails == False:
 
-            var_shIntDetails == True
+            var_shIntDetails = True
 
             var_guiSetRow = 2
 
@@ -223,6 +223,11 @@ class class_guiHandle:
 
 
             # VLAN
+            def func_subGuiHandle_setVLANobj():
+                netDevMatrix[3] = cmdAPI.class_commandAPI.func_getVLAN()
+                guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][var_portNum])
+                
+
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
 
@@ -288,7 +293,7 @@ class class_guiHandle:
                 for guiObj in guiSet:
                     guiObj.grid_forget()
 
-            var_shIntDetails == False
+            var_shIntDetails = False
 
 
     #/ @func_guiHandleInterfaceMenu
@@ -359,15 +364,113 @@ class class_guiHandle:
 
 
 
+    #/ @func_guiHandleMiscConfMenu
+    #/ Purpose: 
+    def func_guiHandleMiscConfMenu():
+        global bool_menuBusy
+
+
+        if 'guiObj_ndHostnameButton' not in globals():
+
+
+            # Hostname
+            global guiObj_ndHostnameLabelpt1
+            guiObj_ndHostnameLabelpt1 = tkinter.Label()
+            global guiObj_ndHostnameLabelpt2
+            guiObj_ndHostnameLabelpt2 = tkinter.Label()
+
+            global guiObj_ndHostnameInpBox
+            guiObj_ndHostnameInpBox = tkinter.Text()
+            global guiObj_ndHostnameButton
+            guiObj_ndHostnameButton = tkinter.Button()
+
+            arr_ndHostnameArr = [guiObj_ndHostnameLabelpt1, guiObj_ndHostnameLabelpt2, guiObj_ndHostnameInpBox, guiObj_ndHostnameButton]
+
+
+            global matrix_miscMenu
+            matrix_miscMenu = [arr_ndHostnameArr]
+
+
+        if bool_menuBusy == False:
+
+            bool_menuBusy = True
+
+            var_guiSetRow = 1
+        
+            # Hostname
+            def func_subGuiHandle_setHostnameObj():
+                guiObj_ndHostnameLabelpt2["text"] = cmdAPI.class_commandAPI.func_getHostname()
+
+            guiObj_ndHostnameLabelpt1["text"] = "Device Hostname: "
+            guiObj_ndHostnameLabelpt1["width"] = 16
+            guiObj_ndHostnameLabelpt1["height"] = 3
+            guiObj_ndHostnameLabelpt1.grid() 
+
+            guiObj_ndHostnameLabelpt2["text"] = cmdAPI.class_commandAPI.func_getHostname()
+            guiObj_ndHostnameLabelpt2["width"] = 16
+            guiObj_ndHostnameLabelpt2["height"] = 3
+            guiObj_ndHostnameLabelpt2.grid() 
+
+            guiObj_ndHostnameInpBox["width"] = 16
+            guiObj_ndHostnameInpBox["height"] = 1
+            guiObj_ndHostnameInpBox.grid() 
+
+            guiObj_ndHostnameButton["text"] = "Set Hostname"
+            guiObj_ndHostnameButton["width"] = 16
+            guiObj_ndHostnameButton["height"] = 3
+            guiObj_ndHostnameButton["command"] = lambda: [cmdAPI.class_commandAPI.func_setHostname(guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")), func_subGuiHandle_setHostnameObj()]
+            guiObj_ndHostnameButton.grid()
+
+            for guiObj in arr_ndHostnameArr:
+                print(arr_ndHostnameArr.index(guiObj))
+                guiObj.grid(row = var_guiSetRow, column = (1 + arr_ndHostnameArr.index(guiObj)), sticky = tkinter.E, padx = 10, pady = 10)
+
+            var_guiSetRow += 1
+
+            """
+            # Hostname
+            guiObj_ndHostname["text"] =
+            guiObj_ndHostname["width"] = 
+            guiObj_ndHostname["height"] = 
+            guiObj_ndHostname.grid() 
+
+            var_guiSetRow += 1
+
+            # Hostname
+            guiObj_ndHostname["text"] =
+            guiObj_ndHostname["width"] = 
+            guiObj_ndHostname["height"] = 
+            guiObj_ndHostname.grid() 
+
+            var_guiSetRow += 1
+            """
+
+            guiObj_shOtherConfigButton["text"] = "Hide Misc. Config Menu"
+
+
+        elif bool_menuBusy == True:
+            for guiArr in matrix_miscMenu:
+                for guiObj in guiArr:
+                    guiObj.grid_forget()
+
+            guiObj_shOtherConfigButton["text"] = "Show Misc. Config Menu"
+
+            bool_menuBusy = False
+
+            
+
+
+
+
+
     #/ @func_guiHandlePrgMenu
     #/ Purpose: 
-    #/ TODO: Build GUI
-    #/ TODO: Get Image import to work.
     def func_guiHandlePrgMenu():
         global guiObj_exitButton
         global guiObj_shInterfacesButton
         global guiObj_shConTypeButton
         global guiObj_shConfigLoadButton
+        global guiObj_shOtherConfigButton
 
         # Exit Button
         guiObj_exitButton = tkinter.Button(guiHandle)
@@ -399,7 +502,7 @@ class class_guiHandle:
         guiObj_shOtherConfigButton["text"] = "Show Misc. Config Menu"
         guiObj_shOtherConfigButton["width"] = 30
         guiObj_shOtherConfigButton["height"] = 3
-        guiObj_shOtherConfigButton["command"] = lambda: [class_guiHandle.func_guiHandleInterfaceMenu(), class_guiHandle.func_guiHandleInterfaceDetails(True, 0)] #For whatever reason this doesn't work without lambda.
+        guiObj_shOtherConfigButton["command"] = lambda: class_guiHandle.func_guiHandleMiscConfMenu() #For whatever reason this doesn't work without lambda.
         guiObj_shOtherConfigButton.grid(row = 3, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
 
 
