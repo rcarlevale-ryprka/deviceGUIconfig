@@ -166,13 +166,15 @@ class class_guiHandle:
             global guiObj_portDuplexLabelpt2
             guiObj_portDuplexLabelpt2 = tkinter.Label(guiHandle)
             
-            global guiObj_portDuplexInpBox
-            guiObj_portDuplexInpBox = tkinter.Text(guiHandle)
-            global guiObj_portDuplexSetButton
-            guiObj_portDuplexSetButton = tkinter.Button(guiHandle)
+            global guiObj_portDuplexSetButtonAuto
+            guiObj_portDuplexSetButtonAuto = tkinter.Button(guiHandle)
+            global guiObj_portDuplexSetButtonFull
+            guiObj_portDuplexSetButtonFull = tkinter.Button(guiHandle)
+            global guiObj_portDuplexSetButtonHalf
+            guiObj_portDuplexSetButtonHalf = tkinter.Button(guiHandle)
 
             global arr_portDuplexArr
-            arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portDuplexLabelpt2, guiObj_portDuplexInpBox, guiObj_portDuplexSetButton]
+            arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portDuplexLabelpt2, guiObj_portDuplexSetButtonAuto, guiObj_portDuplexSetButtonFull, guiObj_portDuplexSetButtonHalf]
 
             # Port Speed
             global guiObj_portSpeedLabelpt1
@@ -225,7 +227,6 @@ class class_guiHandle:
             # VLAN
             def func_subGuiHandle_setVLANobj():
                 guiObj_portVLANLabelpt2["text"] = guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")
-                
 
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
@@ -248,6 +249,9 @@ class class_guiHandle:
 
 
             #Duplex
+            def func_subGuiHandle_setDuplexObj(str_typeDuplex):
+                guiObj_portDuplexLabelpt2["text"] = str_typeDuplex
+
             guiObj_portDuplexLabelpt1["text"] = "Duplex: "
             guiObj_portDuplexLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
 
@@ -255,14 +259,24 @@ class class_guiHandle:
             guiObj_portDuplexLabelpt2["text"] = str(netDevMatrix[4][var_portNum])
             guiObj_portDuplexLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
 
-            guiObj_portDuplexInpBox["height"] = 1
-            guiObj_portDuplexInpBox["width"] = 16
-            guiObj_portDuplexInpBox.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
+            guiObj_portDuplexSetButtonAuto["text"] = "Set Duplex to Auto"
+            guiObj_portDuplexSetButtonAuto["height"] = 3
+            guiObj_portDuplexSetButtonAuto["width"] = 16
+            guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Auto"), func_subGuiHandle_setDuplexObj("Auto")]
+            guiObj_portDuplexSetButtonAuto.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
 
-            guiObj_portDuplexSetButton["text"] = "Set Duplex"
-            guiObj_portDuplexSetButton["height"] = 3
-            guiObj_portDuplexSetButton["width"] = 16
-            guiObj_portDuplexSetButton.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
+            guiObj_portDuplexSetButtonFull["text"] = "Set Duplex to Full"
+            guiObj_portDuplexSetButtonFull["height"] = 3
+            guiObj_portDuplexSetButtonFull["width"] = 16
+            guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Full"), func_subGuiHandle_setDuplexObj("Full")]
+            guiObj_portDuplexSetButtonFull.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
+
+            guiObj_portDuplexSetButtonHalf["text"] = "Set Duplex to Half"
+            guiObj_portDuplexSetButtonHalf["height"] = 3
+            guiObj_portDuplexSetButtonHalf["width"] = 16
+            guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Half"), func_subGuiHandle_setDuplexObj("Half")]
+            guiObj_portDuplexSetButtonHalf.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 5, sticky = tkinter.E, padx = 10, pady = 10)
+
 
             var_guiSetRow += 1
 

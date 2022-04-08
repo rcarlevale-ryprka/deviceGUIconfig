@@ -271,6 +271,27 @@ class class_commandAPI:
         
         return arr_duplexStats
 
+    def func_setDuplexStats(var_intNum, str_duplexType):
+        """
+        if str_duplexType == "Auto":
+            ...
+        elif str_duplexType == "Full":
+            ...
+        elif str_duplexType == "Half":
+            ...
+        """
+
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'conf t',
+            ('int ' + var_intNum),
+            ('duplex' + str_duplexType),
+            'end',
+            'end'
+        ]
+
+
 
 
 
