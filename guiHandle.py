@@ -224,8 +224,7 @@ class class_guiHandle:
 
             # VLAN
             def func_subGuiHandle_setVLANobj():
-                netDevMatrix[3] = cmdAPI.class_commandAPI.func_getVLAN()
-                guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][var_portNum])
+                guiObj_portVLANLabelpt2["text"] = guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")
                 
 
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
@@ -242,7 +241,7 @@ class class_guiHandle:
             guiObj_portVLANSetButton["text"] = "Set VLAN"
             guiObj_portVLANSetButton["height"] = 3
             guiObj_portVLANSetButton["width"] = 16
-            guiObj_portVLANSetButton["command"] = lambda: cmdAPI.class_commandAPI.func_setVLAN(var_portNum, guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c"))
+            guiObj_portVLANSetButton["command"] = lambda: [cmdAPI.class_commandAPI.func_setVLAN(var_portNum, guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")), func_subGuiHandle_setVLANobj()]
             guiObj_portVLANSetButton.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
 
             var_guiSetRow += 1
@@ -384,6 +383,7 @@ class class_guiHandle:
             global guiObj_ndHostnameButton
             guiObj_ndHostnameButton = tkinter.Button()
 
+            global arr_ndHostnameArr
             arr_ndHostnameArr = [guiObj_ndHostnameLabelpt1, guiObj_ndHostnameLabelpt2, guiObj_ndHostnameInpBox, guiObj_ndHostnameButton]
 
 
@@ -418,12 +418,13 @@ class class_guiHandle:
             guiObj_ndHostnameButton["text"] = "Set Hostname"
             guiObj_ndHostnameButton["width"] = 16
             guiObj_ndHostnameButton["height"] = 3
-            guiObj_ndHostnameButton["command"] = lambda: [cmdAPI.class_commandAPI.func_setHostname(guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")), func_subGuiHandle_setHostnameObj()]
+            guiObj_ndHostnameButton["command"] = lambda: [cmdAPI.class_commandAPI.func_setHostname(guiObj_ndHostnameInpBox.get(1.0, tkinter.END + "-1c")), func_subGuiHandle_setHostnameObj()]
             guiObj_ndHostnameButton.grid()
 
-            for guiObj in arr_ndHostnameArr:
-                print(arr_ndHostnameArr.index(guiObj))
-                guiObj.grid(row = var_guiSetRow, column = (1 + arr_ndHostnameArr.index(guiObj)), sticky = tkinter.E, padx = 10, pady = 10)
+            for guiArr in matrix_miscMenu:
+                for guiObj in guiArr:
+                    print(arr_ndHostnameArr.index(guiObj))
+                    guiObj.grid(row = var_guiSetRow, column = (1 + arr_ndHostnameArr.index(guiObj)), sticky = tkinter.E, padx = 10, pady = 10)
 
             var_guiSetRow += 1
 

@@ -152,18 +152,17 @@ class class_commandAPI:
     #/ Sets a network devices hostname.
     def func_getHostname():
         arr_cmdInp = [
-            'en'
+            '\r',
+            '\r'
         ]
 
         arr_cmdDetials =  conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
+        var_strCmd = arr_cmdDetials.splitlines()[1]
+        var_strCmd = (var_strCmd.replace('>', '')).replace('#', '')
 
-        print(arr_cmdDetials)
-        newStr = ""
-        for let in arr_cmdDetials[0]:
-            newStr += let
+        print(var_strCmd)
 
-
-        return newStr
+        return var_strCmd
 
 
     #/ @func_setHostname
@@ -302,7 +301,7 @@ class class_commandAPI:
     #/ @func_testMethod
     #/ Purpose: Allows this file to be run and tested without other necessities.
     def func_testMethod():
-        class_commandAPI.func_getIntDetails()
+        class_commandAPI.func_getHostname()
 
     
 
