@@ -36,13 +36,16 @@ class class_connectAPI:
 
             var_serialReturn = ""
 
+            if str(ser.read(ser.inWaiting()).decode("utf-8"), end = "").__contains__("RETURN") or str(ser.read(ser.inWaiting()).decode("utf-8"), end = "").__contains__("no"):
+                ser.write('no'.encode("utf-8"))
+
             # A loop that sends each command in an array of commands that have been sent.
             for command in arr_cmdInp:
                 ser.write(str(command).encode("utf-8"))
                 ser.write('\r'.encode("utf-8"))
                 #arr_serialReturn.append(str(ser.read(ser.inWaiting()).decode("utf-8")))
                 var_serialReturn += (str(ser.read(ser.inWaiting()).decode("utf-8")))
-                #str(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
+                print(ser.read(ser.inWaiting()).decode("utf-8"), end = "")
                 time.sleep(4)
 
             ser.close()

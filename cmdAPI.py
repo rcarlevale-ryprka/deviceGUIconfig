@@ -79,14 +79,12 @@ class class_commandAPI:
             '\r',
             'en',
             'terminal length 0',
-            #'show int',
             'show int status',
             'end'
         ]
 
         var_rawConfigString = conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
         arr_intStatDetails = class_commandAPI.func_parseData(var_rawConfigString)
-        #arr_intStatDetails = class_commandAPI.func_altParseData(var_rawConfigString)
 
         return arr_intStatDetails
         
@@ -97,10 +95,13 @@ class class_commandAPI:
     ###/ DOWN/UP CONFIG
     ###/
 
-    def func_getConf():
+    #/ @func_
+    #/ Purpose: 
+    def func_downConfFile():
         arr_cmdInp = [
             '\r',
             'en',
+            'terminal length 0',
             'show running-config',
             'exit'
         ]
@@ -112,16 +113,37 @@ class class_commandAPI:
             file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'r+')
             file_configFile.close()
         except:
-            debug.class_debug.func_debugOut("Creating network device configuration file.")
+            debug.class_debug.func_debugOut("class_commandAPI", "func_downConfFile", "Creating network device configuration file.")
             file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'a')
             file_configFile.close()
 
-        file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'a')
+        file_configFile = open((var_confFilePath + '\\NDconfig.txt'), 'w+')
+
+        arr_downConf = arr_downConf.splitlines()[7:(len(arr_downConf.splitlines()) - 1)]
 
         for cmdItem in arr_downConf:
-            file_configFile.write(cmdItem)
+            file_configFile.write(cmdItem + "\r")
 
         file_configFile.close()
+
+
+    #/ @func_
+    #/ Purpose:
+    def func_upConfFile(arr_fileContents):
+        print(arr_fileContents)
+
+        arr_cmdInp = [
+            '\r',
+            'en',
+            'conf t'
+        ]
+
+        for cmdItem in arr_fileContents:
+            arr_cmdInp.append(cmdItem)
+
+        arr_cmdInp.append('exit')
+
+        conAPI.class_connectAPI.func_serialConInstance(arr_cmdInp)
 
 
 
@@ -238,13 +260,14 @@ class class_commandAPI:
     #/ @func_removeVLAN
     #/ Removes VLAN from interface.
     def func_removeVLAN(var_intNum, var_vlanNum):
-        var_intNum = "GigabitEthernet1/0/" + var_intNum
+
+        var_intRef = class_commandAPI.func_getInts()[var_intNum]
 
         arr_cmdInp = [
             '\r',
             'en',
             'conf t',
-            ('int ' + var_intNum),
+            ('int ' + var_intRef),
             'switchport mode access',
             ('switchport access vlan ' + var_vlanNum),
             'end',
@@ -272,20 +295,20 @@ class class_commandAPI:
         return arr_duplexStats
 
     def func_setDuplexStats(var_intNum, str_duplexType):
-        """
         if str_duplexType == "Auto":
-            ...
+            str_duplexType = "auto"
         elif str_duplexType == "Full":
-            ...
+            str_duplexType = "full"
         elif str_duplexType == "Half":
-            ...
-        """
+            str_duplexType = "half"
+
+        var_intRef = class_commandAPI.func_getInts()[var_intNum]
 
         arr_cmdInp = [
             '\r',
             'en',
             'conf t',
-            ('int ' + var_intNum),
+            ('int ' + var_intRef),
             ('duplex' + str_duplexType),
             'end',
             'end'
@@ -312,11 +335,8 @@ class class_commandAPI:
         return arr_portSpeed
 
 
-
-
-
-
-
+    def func_setPortSpeed():
+        ...
 
 
     #/ @func_testMethod

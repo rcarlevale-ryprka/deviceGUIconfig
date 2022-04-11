@@ -22,6 +22,7 @@ __license__ = ""
 
 import debug
 import guiHandle
+import os
 #import cmdAPI
 #import conAPI
 
@@ -35,10 +36,21 @@ import guiHandle
 
 class class_main:
 
+    #/ @func_createPath
+    #/ Purpose:
+    def func_createPath():
+        filepath = debug.func_loadConfig()["fileSettings"]["filePath"]
+
+        if not os.path.isdir(filepath):
+            os.mkdir(filepath)
+ 
     #/ @func_main
     #/ Purpose: Main function in the main class.
     def func_main():
         # Initializing Start of Program
+
+        class_main.func_createPath()
+
         debug.class_debug.func_debugOut("class_main", "func_main", "Program Started")
 
         guiHandle.class_guiHandle.func_guiHandleMain()

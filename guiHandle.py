@@ -7,6 +7,7 @@
 
 import cmd
 import tkinter
+from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 import random
 import time
@@ -53,9 +54,6 @@ global var_netDevInterfaces
 #/ @Classes
 #/ Purpose: Define classes in this file.
 
-class class_infoGrab:
-    ...
-
 #/ @class_guiHandle
 #/ Purpose: Handles all GUI objects and window management.
 
@@ -100,11 +98,20 @@ class class_guiHandle:
             guiObj_downNDconfig["text"] = "Download Config"
             guiObj_downNDconfig["width"] = 20
             guiObj_downNDconfig["height"] = 3
+            guiObj_downNDconfig["command"] = lambda: cmdAPI.class_commandAPI.func_downConfFile()
             guiObj_downNDconfig.grid(row = 1, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+
+            def func_subGuiHandle_selectUpFile():
+                #import tkinter.filedialog
+                file_upConfig = filedialog.askopenfile(mode = 'r')
+                arr_fileContents = file_upConfig.readlines()
+                cmdAPI.class_commandAPI.func_upConfFile(arr_fileContents)
+                
 
             guiObj_upNDconfig["text"] = "Upload Config"
             guiObj_upNDconfig["width"] = 20
             guiObj_upNDconfig["height"] = 3
+            guiObj_upNDconfig["command"] = lambda: func_subGuiHandle_selectUpFile()
             guiObj_upNDconfig.grid(row = 1, column = 2, sticky = tkinter.E, padx = 10, pady = 10)
  
             guiObj_shConfigLoadButton["text"] = "Hide Config Loader"
@@ -262,13 +269,13 @@ class class_guiHandle:
             guiObj_portDuplexSetButtonAuto["text"] = "Set Duplex to Auto"
             guiObj_portDuplexSetButtonAuto["height"] = 3
             guiObj_portDuplexSetButtonAuto["width"] = 16
-            guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Auto"), func_subGuiHandle_setDuplexObj("Auto")]
+            guiObj_portDuplexSetButtonAuto["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Auto"), func_subGuiHandle_setDuplexObj("Auto")]
             guiObj_portDuplexSetButtonAuto.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
 
             guiObj_portDuplexSetButtonFull["text"] = "Set Duplex to Full"
             guiObj_portDuplexSetButtonFull["height"] = 3
             guiObj_portDuplexSetButtonFull["width"] = 16
-            guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Full"), func_subGuiHandle_setDuplexObj("Full")]
+            guiObj_portDuplexSetButtonFull["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Full"), func_subGuiHandle_setDuplexObj("Full")]
             guiObj_portDuplexSetButtonFull.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
 
             guiObj_portDuplexSetButtonHalf["text"] = "Set Duplex to Half"
@@ -441,24 +448,6 @@ class class_guiHandle:
                     guiObj.grid(row = var_guiSetRow, column = (1 + arr_ndHostnameArr.index(guiObj)), sticky = tkinter.E, padx = 10, pady = 10)
 
             var_guiSetRow += 1
-
-            """
-            # Hostname
-            guiObj_ndHostname["text"] =
-            guiObj_ndHostname["width"] = 
-            guiObj_ndHostname["height"] = 
-            guiObj_ndHostname.grid() 
-
-            var_guiSetRow += 1
-
-            # Hostname
-            guiObj_ndHostname["text"] =
-            guiObj_ndHostname["width"] = 
-            guiObj_ndHostname["height"] = 
-            guiObj_ndHostname.grid() 
-
-            var_guiSetRow += 1
-            """
 
             guiObj_shOtherConfigButton["text"] = "Hide Misc. Config Menu"
 
