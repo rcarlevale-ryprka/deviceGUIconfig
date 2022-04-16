@@ -8,8 +8,8 @@
         "prgHeight": "1080"
     },
     "debugSettings" : {
-        "doLogging" : true,
-        "doDebugging" : true
+        "doLogging" : false,
+        "doDebugging" : false
     },
     "conSettings" : {
         "serialComNum" : "COM12",

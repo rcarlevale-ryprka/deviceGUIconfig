@@ -306,6 +306,7 @@ class class_guiHandle:
         elif var_shIntDetails == True:
             for guiSet in matrix_interfaceDetailsGui:
                 for guiObj in guiSet:
+                    #debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "")
                     guiObj.grid_forget()
 
             var_shIntDetails = False
