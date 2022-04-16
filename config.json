@@ -3,7 +3,9 @@
         "projectName" : "Network Device Manager"
     },
     "guiSettings" : {
-        "title" : "Network Device Manager"
+        "title" : "Network Device Manager",
+        "prgWidth": "1920",
+        "prgHeight": "1080"
     },
     "debugSettings" : {
         "doLogging" : true,

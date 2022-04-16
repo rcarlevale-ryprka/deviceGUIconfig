@@ -5,12 +5,8 @@
 #/ @Imports
 #/ Purpose: Used to import files to use for this main method.
 
-import cmd
 import tkinter
 from tkinter import filedialog
-from tkinter.filedialog import askopenfilename
-import random
-import time
 
 import debug
 import cmdAPI
@@ -23,7 +19,7 @@ import cmdAPI
 # Defining tkinter module as a variable.
 guiHandle = tkinter.Tk()
 
-
+# Value that defines if the menu area is busy.
 bool_menuBusy = False
 
 # Defines how far down of a row shift func_guiHandleInterfaceMenu() and
@@ -58,20 +54,15 @@ global var_netDevInterfaces
 #/ Purpose: Handles all GUI objects and window management.
 
 class class_guiHandle:
-
-
-
-
     #/ @func_guiHandleExit
-    #/ Purpose: Closes the program.
+    #/ Purpose: Closes the GUI and ends the program.
     def func_guiHandleExit():
-        
-        debug.class_debug.func_debugOut("class_guiHandle", "func+guiHandleExit", "GUI Destroy Call")
+        debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleExit", "GUI Destroy Call")
         guiHandle.destroy()
 
 
     #/ @gunc_guiHandleGrabTextInp
-    #/ Purpose:
+    #/ Purpose: Grabs information from text boxes in which the user can type into.
     def func_guiHandleGrabTextInp(guiObj_textInpBox):
         guiObjParse = guiObj_textInpBox.get(1.0, tkinter.END + "-1c")
         print(guiObjParse)
@@ -102,7 +93,6 @@ class class_guiHandle:
             guiObj_downNDconfig.grid(row = 1, column = 1, sticky = tkinter.E, padx = 10, pady = 10)
 
             def func_subGuiHandle_selectUpFile():
-                #import tkinter.filedialog
                 file_upConfig = filedialog.askopenfile(mode = 'r')
                 arr_fileContents = file_upConfig.readlines()
                 cmdAPI.class_commandAPI.func_upConfFile(arr_fileContents)
@@ -135,7 +125,7 @@ class class_guiHandle:
 
         # Checks if GUI objects are in global then creates variables. Redundant as fuck.
         if 'matrix_interfaceDetailsGui' not in globals():
-            # Port Current Connection
+            # Port Current Connection GUI Object registering.
             global guiObj_portNameLabelpt1
             guiObj_portNameLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portNameLabelpt2
@@ -144,7 +134,7 @@ class class_guiHandle:
             global arr_portNameArr
             arr_portNameArr = [guiObj_portNameLabelpt1, guiObj_portNameLabelpt2]
 
-            # Port Status
+            # Port Status GUI Object registering.
             global guiObj_portStatusLabelpt1
             guiObj_portStatusLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portStatusLabelpt2
@@ -153,7 +143,7 @@ class class_guiHandle:
             global arr_portStatusArr
             arr_portStatusArr = [guiObj_portStatusLabelpt1, guiObj_portStatusLabelpt2]
 
-            # VLAN
+            # VLAN GUI Object registering.
             global guiObj_portVLANLabelpt1
             guiObj_portVLANLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portVLANLabelpt2
@@ -167,7 +157,7 @@ class class_guiHandle:
             global arr_portVLANArr
             arr_portVLANArr = [guiObj_portVLANLabelpt1, guiObj_portVLANLabelpt2, guiObj_portVLANInpBox, guiObj_portVLANSetButton]
 
-            # Duplex
+            # Duplex GUI Object registering.
             global guiObj_portDuplexLabelpt1
             guiObj_portDuplexLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portDuplexLabelpt2
@@ -183,7 +173,7 @@ class class_guiHandle:
             global arr_portDuplexArr
             arr_portDuplexArr = [guiObj_portDuplexLabelpt1, guiObj_portDuplexLabelpt2, guiObj_portDuplexSetButtonAuto, guiObj_portDuplexSetButtonFull, guiObj_portDuplexSetButtonHalf]
 
-            # Port Speed
+            # Port Speed GUI Object registering.
             global guiObj_portSpeedLabelpt1
             guiObj_portSpeedLabelpt1 = tkinter.Label(guiHandle)
             global guiObj_portSpeedLabelpt2
@@ -195,7 +185,7 @@ class class_guiHandle:
             guiObj_portSpeedSetButton = tkinter.Button(guiHandle)
 
             global arr_portSpeedArr
-            arr_portSpeedArr = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2, guiObj_portSpeedInpBox, guiObj_portSpeedSetButton]
+            arr_portSpeedArr = [guiObj_portSpeedLabelpt1, guiObj_portSpeedLabelpt2]
 
             # Array Matrix
             global matrix_interfaceDetailsGui
@@ -210,100 +200,105 @@ class class_guiHandle:
             var_guiSetRow = 2
 
 
-            # Port Name
+            # Port Name GUI Objects Creation.
             guiObj_portNameLabelpt1["text"] = "Current Interface: "
             guiObj_portNameLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portNameLabelpt1 Loaded")
 
             netDevMatrix[1] = cmdAPI.class_commandAPI.func_getInts()
             guiObj_portNameLabelpt2["text"] = str(netDevMatrix[1][var_portNum])
             guiObj_portNameLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portNameLabelpt2 Loaded")
 
             var_guiSetRow += 1
 
-            # Port Status
+            # Port Status GUI Objects Creation.
             guiObj_portStatusLabelpt1["text"] = "Port Status: "
             guiObj_portStatusLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portStatusLabelpt1 Loaded")
 
             netDevMatrix[2] = cmdAPI.class_commandAPI.func_getConStatus()
             guiObj_portStatusLabelpt2["text"] = str(netDevMatrix[2][var_portNum])
             guiObj_portStatusLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portStatusLabelpt2 Loaded")
 
             var_guiSetRow += 1
 
 
-            # VLAN
+            # VLAN GUI Creation.
             def func_subGuiHandle_setVLANobj():
                 guiObj_portVLANLabelpt2["text"] = guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")
 
             guiObj_portVLANLabelpt1["text"] = "Port VLAN: "
             guiObj_portVLANLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portVLANLabelpt1 Loaded")
 
             netDevMatrix[3] = cmdAPI.class_commandAPI.func_getVLAN()
             guiObj_portVLANLabelpt2["text"] = str(netDevMatrix[3][var_portNum])
             guiObj_portVLANLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portVLANLabelpt2 Loaded")
 
             guiObj_portVLANInpBox["height"] = 1
             guiObj_portVLANInpBox["width"] = 16
             guiObj_portVLANInpBox.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portVLANInpBox Loaded")
 
             guiObj_portVLANSetButton["text"] = "Set VLAN"
             guiObj_portVLANSetButton["height"] = 3
             guiObj_portVLANSetButton["width"] = 16
             guiObj_portVLANSetButton["command"] = lambda: [cmdAPI.class_commandAPI.func_setVLAN(var_portNum, guiObj_portVLANInpBox.get(1.0, tkinter.END + "-1c")), func_subGuiHandle_setVLANobj()]
             guiObj_portVLANSetButton.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portVLANSetButton Loaded")
 
             var_guiSetRow += 1
 
 
-            #Duplex
+            #Duplex GUI Objects Creation.
             def func_subGuiHandle_setDuplexObj(str_typeDuplex):
                 guiObj_portDuplexLabelpt2["text"] = str_typeDuplex
 
             guiObj_portDuplexLabelpt1["text"] = "Duplex: "
             guiObj_portDuplexLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portDuplexLabelpt1 Loaded")
 
             netDevMatrix[4] = cmdAPI.class_commandAPI.func_getDuplexStats()
             guiObj_portDuplexLabelpt2["text"] = str(netDevMatrix[4][var_portNum])
             guiObj_portDuplexLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portDuplexLabelpt2 Loaded")
 
             guiObj_portDuplexSetButtonAuto["text"] = "Set Duplex to Auto"
             guiObj_portDuplexSetButtonAuto["height"] = 3
             guiObj_portDuplexSetButtonAuto["width"] = 16
             guiObj_portDuplexSetButtonAuto["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Auto"), func_subGuiHandle_setDuplexObj("Auto")]
             guiObj_portDuplexSetButtonAuto.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "gguiObj_portDuplexSetButtonAuto Loaded")
 
             guiObj_portDuplexSetButtonFull["text"] = "Set Duplex to Full"
             guiObj_portDuplexSetButtonFull["height"] = 3
             guiObj_portDuplexSetButtonFull["width"] = 16
             guiObj_portDuplexSetButtonFull["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Full"), func_subGuiHandle_setDuplexObj("Full")]
             guiObj_portDuplexSetButtonFull.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portDuplexSetButtonFull Loaded")
 
             guiObj_portDuplexSetButtonHalf["text"] = "Set Duplex to Half"
             guiObj_portDuplexSetButtonHalf["height"] = 3
             guiObj_portDuplexSetButtonHalf["width"] = 16
             guiObj_portDuplexSetButtonHalf["command"] = lambda: [cmdAPI.class_commandAPI.func_setDuplexStats(var_portNum, "Half"), func_subGuiHandle_setDuplexObj("Half")]
             guiObj_portDuplexSetButtonHalf.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 5, sticky = tkinter.E, padx = 10, pady = 10)
-
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portDuplexSetButtonHalf Loaded")
 
             var_guiSetRow += 1
 
 
-            #Speed
+            #Speed GUI Objects Creation.
             guiObj_portSpeedLabelpt1["text"] = "Port Speed: "
             guiObj_portSpeedLabelpt1.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 1, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portSpeedLabelpt1 Loaded")
 
             netDevMatrix[5] = cmdAPI.class_commandAPI.func_getPortSpeed()
             guiObj_portSpeedLabelpt2["text"] = str((netDevMatrix[5])[var_portNum])
             guiObj_portSpeedLabelpt2.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 2, sticky = tkinter.W, padx = 10, pady = 10)
-
-            guiObj_portSpeedInpBox["height"] = 1
-            guiObj_portSpeedInpBox["width"] = 16
-            guiObj_portSpeedInpBox.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 3, sticky = tkinter.E, padx = 10, pady = 10)
-
-            guiObj_portSpeedSetButton["text"] = "Set ###"
-            guiObj_portSpeedSetButton["height"] = 3
-            guiObj_portSpeedSetButton["width"] = 16
-            guiObj_portSpeedSetButton.grid(row = (var_guiSetRow + var_intMenuRowShift), column = 4, sticky = tkinter.E, padx = 10, pady = 10)
+            debug.class_debug.func_debugOut("class_guiHandle", "func_guiHandleInterfaceDetails", "guiObj_portSpeedLabelpt2 Loaded")
 
             var_guiSetRow += 1
 
@@ -387,13 +382,12 @@ class class_guiHandle:
     #/ @func_guiHandleMiscConfMenu
     #/ Purpose: 
     def func_guiHandleMiscConfMenu():
+        # Grabs global variables.
         global bool_menuBusy
 
-
+        # Tests if certain global variables have not been created and stored in memory, if not, creates them.
         if 'guiObj_ndHostnameButton' not in globals():
-
-
-            # Hostname
+            # Hostname GUI 
             global guiObj_ndHostnameLabelpt1
             guiObj_ndHostnameLabelpt1 = tkinter.Label()
             global guiObj_ndHostnameLabelpt2
@@ -507,24 +501,12 @@ class class_guiHandle:
         guiObj_shOtherConfigButton["width"] = 30
         guiObj_shOtherConfigButton["height"] = 3
         guiObj_shOtherConfigButton["command"] = lambda: class_guiHandle.func_guiHandleMiscConfMenu() #For whatever reason this doesn't work without lambda.
-        guiObj_shOtherConfigButton.grid(row = 3, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
-
-
-        # Connection Type Button
-        guiObj_shConTypeButton = tkinter.Button(guiHandle)
-        guiObj_shConTypeButton["text"] = "Show Connection Manager"
-        guiObj_shConTypeButton["width"] = 30
-        guiObj_shConTypeButton["height"] = 3
-        #guiObj_shConTypeButton["command"] = lambda: [class_guiHandle.func_guiHandleInterfaceMenu(True), class_guiHandle.func_guiHandleInterfaceDetails(0)] #For whatever reason this doesn't work without lambda.
-        guiObj_shConTypeButton.grid(row = 4, column = 0, sticky = tkinter.S, padx = 10, pady = 10)
-        
+        guiObj_shOtherConfigButton.grid(row = 3, column = 0, sticky = tkinter.S, padx = 10, pady = 10)     
 
 
 
     #/ @func_guiHandleMain
-    #/ Purpose: Main function for handling gui functions.
-    #/ TODO: Make GUI go off of machine's monitor size or manual input in settings.json.
-    #/ TODO: Get title from settings json file.
+    #/ Purpose: Main function for handling how to GUI is shown.
     def func_guiHandleMain():
 
         # Loading .json config file.
@@ -534,12 +516,10 @@ class class_guiHandle:
         #guiHandle.title(configFile['guiSettings'][0])
         guiHandle.title(debug.func_loadConfig()["projectDetails"]["projectName"])
 
-        # Handles Screensize
-        #val_scrnW = winfo_screenheight()
-        #val_scrnH = winfo_screenheight()
-        guiHandle.geometry('1920x1080+400+200')
+        # Handles window size accoring to config.json.
+        guiHandle.geometry(debug.func_loadConfig()["guiSettings"]["prgWidth"] + 'x' + debug.func_loadConfig()["guiSettings"]["prgHeight"] + '+400+200')
 
-        #Test GRID
+        # Sets 
         guiHandle.resizable(0, 0)
         guiHandle.columnconfigure(20, weight = 200)
         guiHandle.rowconfigure(20, weight = 200)

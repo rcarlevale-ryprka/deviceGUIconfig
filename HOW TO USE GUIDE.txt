@@ -1,3 +1,4 @@
 Steps to make sure the program runs:
-1- 
-2- 
+1- Make sure cisco device is booted and does have any prompting messages.
+2- Put your COM port number into config.json under "serialComNum" and make sure "serialComSpeed" is set to the device's matching speed.
+3- Run main.py as administrator.

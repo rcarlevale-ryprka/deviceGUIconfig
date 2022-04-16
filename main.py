@@ -3,7 +3,7 @@
 #/ Purpose: Used for referencing outside of the file to identify informaiton about the program.
 
 __projName__ = "Network Device Manager"
-__projDesc__ = ""
+__projDesc__ = "Used to automate CLI commands for cisco based devices using GUI."
 __projVer__ = ["alpha", "1.0.0"]
 
 __authors__ = ["Ryder Carlevale", "Amber Kovacs"]
@@ -23,8 +23,6 @@ __license__ = ""
 import debug
 import guiHandle
 import os
-#import cmdAPI
-#import conAPI
 
 
 #/
@@ -37,7 +35,7 @@ import os
 class class_main:
 
     #/ @func_createPath
-    #/ Purpose:
+    #/ Purpose: Creates program's path where it stores config files for network devices if the path does not exist.
     def func_createPath():
         filepath = debug.func_loadConfig()["fileSettings"]["filePath"]
 
@@ -47,10 +45,10 @@ class class_main:
     #/ @func_main
     #/ Purpose: Main function in the main class.
     def func_main():
-        # Initializing Start of Program
-
+        #/ Calling createPath for it's purpose.
         class_main.func_createPath()
 
+        #/ Calling debug to output the program has started.
         debug.class_debug.func_debugOut("class_main", "func_main", "Program Started")
 
         guiHandle.class_guiHandle.func_guiHandleMain()
@@ -60,9 +58,9 @@ class class_main:
 
 #/
 #/ @Calls
-#/ Purpose: Calling the main class in this program.
-
-class_main.func_main()
+#/ Purpose: Calling the main class in this program which initliazes the program and starts everything.
+if __name__ == "__main__":
+    class_main.func_main()
 
 
 #///

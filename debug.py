@@ -53,15 +53,21 @@ class class_debug:
     #/ Purpose: Temporary debug method meant to output a variable.
     def func_debugOut(var_classID, var_funcID, var_stringInp):
         if func_loadConfig()["debugSettings"]["doDebugging"] == True:
-            if type(var_stringInp) == str:
+            print("")
+            if type(var_stringInp) == str and type(var_classID) == str and type(var_funcID) == str:
                 class_debug.func_logFileOut(var_stringInp)
+                print(class_debug.func_getTime() + 
+                " [" + str(var_classID) + 
+                "] [" + str(var_funcID) + 
+                "] " + var_stringInp)
                 pass
             else:
                 raise TypeError(class_debug.func_getTime() + 
-                " [" + str(var_classID) + "] [" + str(var_funcID) + "]" + 
+                " [" + str(var_classID) + 
+                "] [" + str(var_funcID) + "]" + 
                 "\r (ERROR) Debug Variable Not String")
 
-            print(class_debug.func_getTime() + " " + var_stringInp)
+            
 
 
 
